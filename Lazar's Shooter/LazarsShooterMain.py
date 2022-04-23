@@ -1,6 +1,7 @@
 import pygame
 import math
 
+print('17min')
 
 pygame.init()
 
