@@ -2,6 +2,7 @@ import pygame
 import math
 import random
 
+
 pygame.init()
 
 #Defining global constants - colours, screen, clock, and images
@@ -53,6 +54,7 @@ class Player(pygame.sprite.Sprite):
     self.height = height
     self.counter = 0
     self.moving = False
+    self.health = health
   
   def handle_weapons(self,display):
     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -105,12 +107,12 @@ class PlayerBullet(pygame.sprite.Sprite):
     
     #calculating the angle at which the bullet will be shot
     self.angle = math.atan2(y-self.mouse_y, x-self.mouse_x)
-    self.x_vel = math.cos(self.angle) * self.speed
-    self.y_vel = math.sin(self.angle) * self.speed
+    self.x_velocity = math.cos(self.angle) * self.speed
+    self.y_velocity = math.sin(self.angle) * self.speed
 
   def update(self,display):
-    self.rect.x -= int(self.x_vel)
-    self.rect.y -= int(self.y_vel)
+    self.rect.x -= int(self.x_velocity)
+    self.rect.y -= int(self.y_velocity)
 
     pygame.draw.rect(display, BULLETYELLOW, (self.rect.x, self.rect.y,self.size,self.size))
 
@@ -120,7 +122,8 @@ class Enemy(pygame.sprite.Sprite):
     super().__init__()
     self.width = width
     self.height = height
-    self.image = pygame.Surface([self.width,self.height])
+    self.image = pygame.Surface([32,32])
+
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
@@ -131,6 +134,8 @@ class Enemy(pygame.sprite.Sprite):
     self.offset_y = random.randrange(-160,190)
   
   def update(self,display):
+
+    #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,32,32))
 
     if self.reset_offset == 0:
       self.offset_x = random.randrange(-150,150)
@@ -157,9 +162,9 @@ class Enemy(pygame.sprite.Sprite):
     self.counter += 1
     #endif
 
-    #Animating the player by altering between images while he is moving
+    #Animating the enemy by altering between images while he is moving
     display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-display_scroll[0],self.rect.y-display_scroll[1],))
-
+      
 
 
 #Four functions for easiliy writing any message and button on screen
@@ -268,7 +273,6 @@ for i in range(5):
 
 
 
-
 #The main game loop
 def gameLoop():
   gameExit = False
@@ -325,9 +329,8 @@ def gameLoop():
       player.moving = True
     #endif
 
-    bullet_hit_group = pygame.sprite.groupcollide(bullet_group, enemy_group, True, True)
-    for enemy in bullet_hit_group:
-      enemy.kill
+ 
+    enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
 
     #Updates all of the sprites on screen
     all_sprites_group.update(display)
@@ -337,6 +340,8 @@ def gameLoop():
     pygame.display.update()
   #endfunction
 
-#Calling the game loop as well as start screen
-game_intro()
-gameLoop()
+#Calling the game loop as well as start screen, 
+# added __main__ beacuse i want to use libraries with this
+if __name__ == '__main__':
+  game_intro()
+  gameLoop()
