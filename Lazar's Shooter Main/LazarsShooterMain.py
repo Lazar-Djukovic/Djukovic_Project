@@ -2,7 +2,6 @@ import pygame
 import math
 import random
 
-
 pygame.init()
 
 #Defining global constants - colours, screen, clock, and images
@@ -227,13 +226,6 @@ def game_intro():
         pygame.quit()
         quit()
       
-      if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_c:
-          intro = False
-
-        if event.key == pygame.K_q:
-          pygame.quit()
-          quit()
 
     display.blit(background,(0,0))
     message_to_screen("Lazar's Shooter!", BLACK, -136, 'large')
