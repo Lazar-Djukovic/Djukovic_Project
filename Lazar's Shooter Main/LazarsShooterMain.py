@@ -162,7 +162,7 @@ class Enemy(pygame.sprite.Sprite):
     #endif
 
     #Animating the enemy by altering between images while he is moving
-    display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-display_scroll[0],self.rect.y-display_scroll[1],))
+    display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-display_scroll[0],self.rect.y-display_scroll[1]))
       
 
 
@@ -297,6 +297,8 @@ def gameLoop():
       display_scroll[0] -= offspeed
       for bullet in bullet_group:
         bullet.rect.x +=offspeed
+      for enemy in enemy_group:
+        enemy.rect.x +=offspeed
       player.moving = True
     #endif
 
@@ -304,6 +306,8 @@ def gameLoop():
       display_scroll[0] += offspeed
       for bullet in bullet_group:
         bullet.rect.x -=offspeed
+      for enemy in enemy_group:
+        enemy.rect.x -=offspeed
       player.moving = True
     #endif
 
@@ -311,6 +315,8 @@ def gameLoop():
       display_scroll[1] -= offspeed
       for bullet in bullet_group:
         bullet.rect.y += offspeed
+      for enemy in enemy_group:
+        enemy.rect.x +=offspeed
       player.moving = True
     #endif
 
@@ -318,6 +324,8 @@ def gameLoop():
       display_scroll[1] += offspeed
       for bullet in bullet_group:
         bullet.rect.y -= offspeed
+      for enemy in enemy_group:
+        enemy.rect.x -=offspeed
       player.moving = True
     #endif
 
