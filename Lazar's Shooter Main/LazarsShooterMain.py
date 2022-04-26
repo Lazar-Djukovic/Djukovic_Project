@@ -1,3 +1,4 @@
+from contextlib import redirect_stderr
 import pygame
 import math
 import random
@@ -55,6 +56,7 @@ class Player(pygame.sprite.Sprite):
     self.moving = False
     self.health = health
   
+  #Function for handling, rotating and possibly switching weapons
   def handle_weapons(self,display):
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
@@ -122,11 +124,13 @@ class Enemy(pygame.sprite.Sprite):
     self.width = width
     self.height = height
     self.image = pygame.Surface([32,32])
+    
 
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
 
+    #Basic ai for random enemy movement, in the players general direction
     self.counter = 0
     self.reset_offset = 0
     self.offset_x = random.randrange(-160,200)
@@ -134,7 +138,7 @@ class Enemy(pygame.sprite.Sprite):
   
   def update(self,display):
 
-    #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,32,32))
+    #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,32,32)) #This was a hitbox test
 
     if self.reset_offset == 0:
       self.offset_x = random.randrange(-150,150)
@@ -162,7 +166,7 @@ class Enemy(pygame.sprite.Sprite):
     #endif
 
     #Animating the enemy by altering between images while he is moving
-    display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-display_scroll[0],self.rect.y-display_scroll[1]))
+    display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-16,self.rect.y-16))
       
 
 
@@ -258,8 +262,8 @@ bullet_group = pygame.sprite.Group()
 player = Player(640,360,64,64,100)
 all_sprites_group.add(player)
 
-for i in range(5):
-  enemy = [Enemy(random.randint(100,700),random.randint(100,700),64,64)]
+for i in range(100):
+  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
 
@@ -316,7 +320,7 @@ def gameLoop():
       for bullet in bullet_group:
         bullet.rect.y += offspeed
       for enemy in enemy_group:
-        enemy.rect.x +=offspeed
+        enemy.rect.y +=offspeed
       player.moving = True
     #endif
 
@@ -325,7 +329,7 @@ def gameLoop():
       for bullet in bullet_group:
         bullet.rect.y -= offspeed
       for enemy in enemy_group:
-        enemy.rect.x -=offspeed
+        enemy.rect.y -=offspeed
       player.moving = True
     #endif
 
