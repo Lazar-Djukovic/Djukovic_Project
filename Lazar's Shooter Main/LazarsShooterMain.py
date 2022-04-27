@@ -168,8 +168,6 @@ class Enemy(pygame.sprite.Sprite):
     #Animating the enemy by altering between images while he is moving
     display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-16,self.rect.y-16))
       
-
-
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textSurf, textRect = text_objects(msg,color,size)
@@ -258,15 +256,19 @@ all_sprites_group = pygame.sprite.Group()
 # List of bullets
 bullet_group = pygame.sprite.Group()
 
+# List for the player
+player_group = pygame.sprite.Group()
+
 #Creating the instance of the player
 player = Player(640,360,64,64,100)
 all_sprites_group.add(player)
+player_group.add(player)
 
-for i in range(100):
+
+for i in range(10):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
-
 
 
 #The main game loop
@@ -335,6 +337,7 @@ def gameLoop():
 
  
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
+    #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
     #Updates all of the sprites on screen
     all_sprites_group.update(display)
