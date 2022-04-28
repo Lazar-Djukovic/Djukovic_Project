@@ -202,18 +202,24 @@ def button(text, x,y,w,h, inactive_color, active_color, action = None):
       if action == "quit":
         pygame.quit()
         quit()
+      #endif
 
       if action == "controls":
         pass
+      #endif
 
       if action == "play":
         gameLoop()
+      #endif
 
       if action == "menu":
         game_intro()
+      #endif
+    #endif
 
   else:
     pygame.draw.rect(display, inactive_color, (x,y,w,h))
+  #endif
 
   text_to_button(text,BLACK,x,y,w,h)
 
@@ -269,7 +275,7 @@ for i in range(10):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
-
+#next i
 
 #The main game loop
 def gameLoop():
@@ -348,7 +354,7 @@ def gameLoop():
   #endfunction
 
 #Calling the game loop as well as start screen, 
-# added __main__ beacuse i want to use libraries with this
+# added __main__ beacuse i want to use libraries with this main code
 if __name__ == '__main__':
   game_intro()
   gameLoop()
