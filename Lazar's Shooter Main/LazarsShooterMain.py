@@ -205,7 +205,7 @@ def button(text, x,y,w,h, inactive_color, active_color, action = None):
       #endif
 
       if action == "controls":
-        pass
+        controls()
       #endif
 
       if action == "play":
@@ -246,6 +246,23 @@ def game_intro():
     button('Controls', 580,450,120,60, YELLOW, LIGHT_YELLOW,action = 'controls')
     button('Quit', 780,450,120,60, RED, LIGHT_RED, action = 'quit')
 
+
+    pygame.display.update()
+    clock.tick(15)
+
+def controls():
+
+  controls = True
+
+  while controls:
+
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        quit()
+  
+    display.blit(background,(0,0))
+    message_to_screen('Tutorial and controls placeholder', BLACK, -70)
 
     pygame.display.update()
     clock.tick(15)
