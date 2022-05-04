@@ -236,6 +236,7 @@ def game_intro():
       
 
     display.blit(background,(0,0))
+
     message_to_screen("Lazar's Shooter!", BLACK, -136, 'large')
     message_to_screen("Lazar's Shooter!", RED, -140, 'large')
     message_to_screen('The objective is to shoot and destroy the', BLACK, -70)
@@ -263,6 +264,10 @@ def controls():
   
     display.blit(background,(0,0))
     message_to_screen('Tutorial and controls placeholder', BLACK, -70)
+
+    button('Play', 380,450,120,60, GREEN, LIGHT_GREEN, action='play')
+    button('Controls', 580,450,120,60, YELLOW, LIGHT_YELLOW,action = 'controls')
+    button('Quit', 780,450,120,60, RED, LIGHT_RED, action = 'quit')
 
     pygame.display.update()
     clock.tick(15)
@@ -360,6 +365,8 @@ def gameLoop():
 
  
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
+    for enemy in enemy_hit_list:
+      pass
     #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
     #Updates all of the sprites on screen
