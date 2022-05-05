@@ -366,6 +366,7 @@ def gameLoop():
  
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
     for enemy in enemy_hit_list:
+      #pygame.draw.rect(display, RED, (enemy.rect.x,enemy.rect.y,32,32))
       pass
     #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
