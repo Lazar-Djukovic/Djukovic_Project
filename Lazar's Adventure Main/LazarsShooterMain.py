@@ -28,7 +28,7 @@ medfont = pygame.font.SysFont("Verdana",40)
 largefont = pygame.font.SysFont("Verdana",65)
 
 #Window caption and clock
-pygame.display.set_caption('/> Adventure')
+pygame.display.set_caption('<Adventure/>')
 clock = pygame.time.Clock()
 offspeed = 4
 
@@ -36,9 +36,9 @@ offspeed = 4
 player_walk_img = [pygame.image.load('PlayerSprites/Player1.png'),pygame.image.load('PlayerSprites/Player2.png')]
 player_idle_img = pygame.image.load('PlayerSprites/PlayerIdle.png')
 
-weapon_img = pygame.image.load('Weapons/Rifle.png').convert()
-player_weapon_img = pygame.transform.scale(weapon_img,(64,64))
-player_weapon_img.set_colorkey((BLACK))
+rifle_img = pygame.image.load('Weapons/Rifle.png').convert()
+player_rifle_img = pygame.transform.scale(rifle_img,(64,64))
+player_rifle_img.set_colorkey((BLACK))
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
 
@@ -46,7 +46,7 @@ background = (pygame.image.load('IntroBackground.png'))
 
 #The main player class
 class Player(pygame.sprite.Sprite):
-  def __init__(self, x, y, width, height,health):
+  def __init__(self, x, y, width, height,health,weapon):
     super().__init__()
     self.x = x
     self.y =y
@@ -55,7 +55,10 @@ class Player(pygame.sprite.Sprite):
     self.counter = 0
     self.moving = False
     self.health = health
-  
+    self.weapon = weapon
+    self.damage = 0
+    self.weaponimg = player_rifle_img
+
   #Function for handling, rotating and possibly switching weapons
   def handle_weapons(self,display):
     mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -63,11 +66,16 @@ class Player(pygame.sprite.Sprite):
     rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
     angle = (180/math.pi) * -math.atan2(rel_y, rel_x)
 
+    if self.weapon == 'Rifle':
+      self.weaponimg = player_rifle_img
+    else:
+      self.weaponimg = player_idle_img
+
     #Checking if the weapon is on the left or right side of the player and rotating accordingly
     if angle < 90 and angle > -90:
-      player_weapon_copy = pygame.transform.rotate(player_weapon_img, angle)
+      player_weapon_copy = pygame.transform.rotate(self.weaponimg, angle)
     else:
-      player_weapon_copy2 = pygame.transform.flip(player_weapon_img, False, True)
+      player_weapon_copy2 = pygame.transform.flip(self.weaponimg, False, True)
       player_weapon_copy = pygame.transform.rotate(player_weapon_copy2, angle)
     #endif
 
@@ -243,9 +251,9 @@ def game_intro():
     message_to_screen('enemies before they destroy you', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
 
-    button('Play', 380,450,120,60, GREEN, LIGHT_GREEN, action='play')
-    button('Controls', 580,450,120,60, YELLOW, LIGHT_YELLOW,action = 'controls')
-    button('Quit', 780,450,120,60, RED, LIGHT_RED, action = 'quit')
+    button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
+    button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
+    button('Quit', 560,560,180,70, RED, LIGHT_RED, action = 'quit')
 
 
     pygame.display.update()
@@ -265,9 +273,9 @@ def controls():
     display.blit(background,(0,0))
     message_to_screen('Tutorial and controls placeholder', BLACK, -70)
 
-    button('Play', 380,450,120,60, GREEN, LIGHT_GREEN, action='play')
-    button('Controls', 580,450,120,60, YELLOW, LIGHT_YELLOW,action = 'controls')
-    button('Quit', 780,450,120,60, RED, LIGHT_RED, action = 'quit')
+    button('Play', 580,380,170,60, GREEN, LIGHT_GREEN, action='play')
+    button('Controls', 580,460,170,60, YELLOW, LIGHT_YELLOW,action = 'controls')
+    button('Quit', 580,540,170,60, RED, LIGHT_RED, action = 'quit')
 
     pygame.display.update()
     clock.tick(15)
@@ -288,7 +296,7 @@ bullet_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 #Creating the instance of the player
-player = Player(640,360,64,64,100)
+player = Player(640,360,64,64,100,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
