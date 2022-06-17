@@ -40,6 +40,11 @@ rifle_img = pygame.image.load('Weapons/Rifle.png').convert()
 player_rifle_img = pygame.transform.scale(rifle_img,(64,64))
 player_rifle_img.set_colorkey((BLACK))
 
+revolver_img = pygame.image.load('Weapons/Revolver.png').convert()
+player_revolver_img = pygame.transform.scale(revolver_img,(64,32))
+player_revolver_img.set_colorkey((BLACK))
+
+
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
 
 background = (pygame.image.load('IntroBackground.png'))
@@ -68,8 +73,8 @@ class Player(pygame.sprite.Sprite):
 
     if self.weapon == 'Rifle':
       self.weaponimg = player_rifle_img
-    else:
-      self.weaponimg = player_idle_img
+    elif self.weapon == 'Revolver':
+      self.weaponimg = player_revolver_img
 
     #Checking if the weapon is on the left or right side of the player and rotating accordingly
     if angle < 90 and angle > -90:
@@ -86,7 +91,7 @@ class Player(pygame.sprite.Sprite):
       self.counter = 0
     #endif
     self.counter += 1
-
+    print(display_scroll)
     #Animating the player by altering between images while he is moving
     if self.moving == True:
       display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.x,self.y))
@@ -245,10 +250,10 @@ def game_intro():
 
     display.blit(background,(0,0))
 
-    message_to_screen("Lazar's Adventure!", BLACK, -136, 'large')
-    message_to_screen("Lazar's Adventure!", RED, -140, 'large')
-    message_to_screen('The objective is to shoot and destroy the', BLACK, -70)
-    message_to_screen('enemies before they destroy you', BLACK, -40)
+    message_to_screen("Lazar's Adventure!", BLACK, -146, 'large')
+    message_to_screen("Lazar's Adventure!", RED, -150, 'large')
+    message_to_screen('Description', BLACK, -70)
+    message_to_screen('---', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
 
     button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
@@ -273,9 +278,9 @@ def controls():
     display.blit(background,(0,0))
     message_to_screen('Tutorial and controls placeholder', BLACK, -70)
 
-    button('Play', 580,380,170,60, GREEN, LIGHT_GREEN, action='play')
-    button('Controls', 580,460,170,60, YELLOW, LIGHT_YELLOW,action = 'controls')
-    button('Quit', 580,540,170,60, RED, LIGHT_RED, action = 'quit')
+    button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
+    button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
+    button('Quit', 560,560,180,70, RED, LIGHT_RED, action = 'quit')
 
     pygame.display.update()
     clock.tick(15)
@@ -296,12 +301,12 @@ bullet_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 #Creating the instance of the player
-player = Player(640,360,64,64,100,'Rifle')
+player = Player(640,360,64,64,100,'Revolver')
 all_sprites_group.add(player)
 player_group.add(player)
 
 
-for i in range(10):
+for i in range(20):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
