@@ -28,7 +28,7 @@ medfont = pygame.font.SysFont("Verdana",40)
 largefont = pygame.font.SysFont("Verdana",65)
 
 #Window caption and clock
-pygame.display.set_caption('/> Shooter')
+pygame.display.set_caption('/> Adventure')
 clock = pygame.time.Clock()
 offspeed = 4
 
@@ -237,8 +237,8 @@ def game_intro():
 
     display.blit(background,(0,0))
 
-    message_to_screen("Lazar's Shooter!", BLACK, -136, 'large')
-    message_to_screen("Lazar's Shooter!", RED, -140, 'large')
+    message_to_screen("Lazar's Adventure!", BLACK, -136, 'large')
+    message_to_screen("Lazar's Adventure!", RED, -140, 'large')
     message_to_screen('The objective is to shoot and destroy the', BLACK, -70)
     message_to_screen('enemies before they destroy you', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
