@@ -44,6 +44,10 @@ revolver_img = pygame.image.load('Weapons/Revolver.png').convert()
 player_revolver_img = pygame.transform.scale(revolver_img,(64,32))
 player_revolver_img.set_colorkey((BLACK))
 
+bow_img = pygame.image.load('Weapons/bow.png').convert()
+player_bow_img = pygame.transform.scale(bow_img,(32,32))
+player_bow_img.set_colorkey((BLACK))
+
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
 
@@ -63,6 +67,7 @@ class Player(pygame.sprite.Sprite):
     self.weapon = weapon
     self.damage = 0
     self.weaponimg = player_rifle_img
+    self.weapon_list = ['Rifle','Revolver','bow']
 
   #Function for handling, rotating and possibly switching weapons
   def handle_weapons(self,display):
@@ -75,6 +80,8 @@ class Player(pygame.sprite.Sprite):
       self.weaponimg = player_rifle_img
     elif self.weapon == 'Revolver':
       self.weaponimg = player_revolver_img
+    elif self.weapon == 'bow':
+      self.weaponimg = player_bow_img
 
     #Checking if the weapon is on the left or right side of the player and rotating accordingly
     if angle < 90 and angle > -90:
@@ -91,7 +98,7 @@ class Player(pygame.sprite.Sprite):
       self.counter = 0
     #endif
     self.counter += 1
-    print(display_scroll)
+    
     #Animating the player by altering between images while he is moving
     if self.moving == True:
       display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.x,self.y))
@@ -376,6 +383,12 @@ def gameLoop():
       player.moving = True
     #endif
 
+    if keys[pygame.K_1]:
+      player.weapon = player.weapon_list[0]
+    if keys[pygame.K_2]:
+      player.weapon = player.weapon_list[1]
+    if keys[pygame.K_3]:
+      player.weapon = player.weapon_list[2]
  
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
     for enemy in enemy_hit_list:
