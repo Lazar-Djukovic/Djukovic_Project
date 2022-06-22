@@ -45,11 +45,13 @@ player_revolver_img = pygame.transform.scale(revolver_img,(64,32))
 player_revolver_img.set_colorkey((BLACK))
 
 bow_img = pygame.image.load('Weapons/bow.png').convert()
-player_bow_img = pygame.transform.scale(bow_img,(32,32))
+player_bow_img = pygame.transform.scale(bow_img,(64,64))
 player_bow_img.set_colorkey((BLACK))
 
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
+RedEnemyH = pygame.image.load('Enemies/RedAlien2.png')
+RedEnemyHit = pygame.transform.scale(RedEnemyH,(75,75))
 
 background = (pygame.image.load('IntroBackground.png'))
 
@@ -139,7 +141,7 @@ class PlayerBullet(pygame.sprite.Sprite):
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self,x,y,width,height):
+  def __init__(self,x,y,width,height,health):
     super().__init__()
     self.width = width
     self.height = height
@@ -155,10 +157,15 @@ class Enemy(pygame.sprite.Sprite):
     self.reset_offset = 0
     self.offset_x = random.randrange(-160,200)
     self.offset_y = random.randrange(-160,190)
+
+    self.health = health
   
   def update(self,display):
 
     #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,32,32)) #This was a hitbox test
+    if self.health < 0:
+      all_sprites_group.remove(self)
+      enemy_group.remove(self)
 
     if self.reset_offset == 0:
       self.offset_x = random.randrange(-150,150)
@@ -187,6 +194,10 @@ class Enemy(pygame.sprite.Sprite):
 
     #Animating the enemy by altering between images while he is moving
     display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-16,self.rect.y-16))
+  
+  def hit(self):
+    self.health -= 25
+    display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
       
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
@@ -314,7 +325,7 @@ player_group.add(player)
 
 
 for i in range(20):
-  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64)]
+  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
 #next i
@@ -390,10 +401,10 @@ def gameLoop():
     if keys[pygame.K_3]:
       player.weapon = player.weapon_list[2]
  
-    enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, True, True)
+    enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, False, True)
     for enemy in enemy_hit_list:
       #pygame.draw.rect(display, RED, (enemy.rect.x,enemy.rect.y,32,32))
-      pass
+      enemy.hit()
     #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
     #Updates all of the sprites on screen
