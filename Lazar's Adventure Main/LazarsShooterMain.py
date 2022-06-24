@@ -1,4 +1,3 @@
-from contextlib import redirect_stderr
 import pygame
 import math
 import random
@@ -16,6 +15,7 @@ GREEN = (0,175,0)
 LIGHT_GREEN = (0,255,0)
 YELLOW = (200,200,0)
 LIGHT_YELLOW = (255,255,0)
+BROWN = (210,105,30)
 
 #Screen resolution
 display_width = 1280
@@ -137,7 +137,10 @@ class PlayerBullet(pygame.sprite.Sprite):
     self.rect.x -= int(self.x_velocity)
     self.rect.y -= int(self.y_velocity)
 
-    pygame.draw.rect(display, BULLETYELLOW, (self.rect.x, self.rect.y,self.size,self.size))
+    if player.weapon == 'bow':
+      pygame.draw.rect(display, BROWN, (self.rect.x, self.rect.y,self.size+5,self.size+3))
+    else:
+      pygame.draw.rect(display, BULLETYELLOW, (self.rect.x, self.rect.y,self.size,self.size))
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
