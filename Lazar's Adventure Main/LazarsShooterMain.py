@@ -28,7 +28,7 @@ medfont = pygame.font.SysFont("Verdana",40)
 largefont = pygame.font.SysFont("Verdana",65)
 
 #Window caption and clock
-pygame.display.set_caption('<Adventure/>')
+pygame.display.set_caption('<Shooter/>')
 clock = pygame.time.Clock()
 offspeed = 4
 
@@ -271,8 +271,8 @@ def game_intro():
 
     display.blit(background,(0,0))
 
-    message_to_screen("Lazar's Adventure!", BLACK, -146, 'large')
-    message_to_screen("Lazar's Adventure!", RED, -150, 'large')
+    message_to_screen("Lazar's Shooter!", BLACK, -146, 'large')
+    message_to_screen("Lazar's Shooter!", RED, -150, 'large')
     message_to_screen('Description', BLACK, -70)
     message_to_screen('---', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
@@ -322,7 +322,7 @@ bullet_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 #Creating the instance of the player
-player = Player(640,360,64,64,100,'Revolver')
+player = Player(640,360,64,64,100,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
