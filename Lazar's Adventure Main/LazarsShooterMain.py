@@ -16,6 +16,7 @@ LIGHT_GREEN = (0,255,0)
 YELLOW = (200,200,0)
 LIGHT_YELLOW = (255,255,0)
 BROWN = (210,105,30)
+BLUE = (0,0,250)
 
 #Screen resolution
 display_width = 1280
@@ -112,6 +113,10 @@ class Player(pygame.sprite.Sprite):
     self.moving = False
 
     self.handle_weapons(display)
+    self.PlayerHealth(950,660,320,50)
+
+  def PlayerHealth(self,x,y,w,h):
+    pygame.draw.rect(display, RED, (x,y,w,h))
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
@@ -159,7 +164,7 @@ class Enemy(pygame.sprite.Sprite):
     self.counter = 0
     self.reset_offset = 0
     self.offset_x = random.randrange(-160,200)
-    self.offset_y = random.randrange(-160,190)
+    self.offset_y = random.randrange(-160,200)
 
     self.health = health
   
@@ -197,11 +202,23 @@ class Enemy(pygame.sprite.Sprite):
 
     #Animating the enemy by altering between images while he is moving
     display.blit(pygame.transform.scale(RedEnemy[self.counter//20], (self.width,self.height)), (self.rect.x-16,self.rect.y-16))
-  
+
   def hit(self):
     self.health -= 25
     display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
-      
+
+class Wall(pygame.sprite.Sprite):
+  def __init__(self,x,y,width,height):
+    super().__init__()
+    self.width = width
+    self.height = height
+    self.image = pygame.Surface([32,32])
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+  def update(self,display):
+    pygame.draw.rect(display, BLUE, (self.rect.x-display_scroll[0], self.rect.y-display_scroll[1],self.width,self.height))
+
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textSurf, textRect = text_objects(msg,color,size)
@@ -285,6 +302,7 @@ def game_intro():
     pygame.display.update()
     clock.tick(15)
 
+#The controls screen definition
 def controls():
 
   controls = True
@@ -297,7 +315,7 @@ def controls():
         quit()
   
     display.blit(background,(0,0))
-    message_to_screen('Tutorial and controls placeholder', BLACK, -70)
+    message_to_screen('Tutorial and controls placeholder text', BLACK, -70)
 
     button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
     button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
@@ -305,6 +323,8 @@ def controls():
 
     pygame.display.update()
     clock.tick(15)
+
+
 
 #The x and y for displacing screen and sprites
 display_scroll = [0,0]
@@ -321,17 +341,21 @@ bullet_group = pygame.sprite.Group()
 # List for the player
 player_group = pygame.sprite.Group()
 
+for i in range(20):
+  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
+  all_sprites_group.add(enemy)
+  enemy_group.add(enemy)
+#next i
+
 #Creating the instance of the player
 player = Player(640,360,64,64,100,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
 
-for i in range(20):
-  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
-  all_sprites_group.add(enemy)
-  enemy_group.add(enemy)
-#next i
+mywall = Wall(100,200,300,30)
+all_sprites_group.add(mywall)
+
 
 #The main game loop
 def gameLoop():
