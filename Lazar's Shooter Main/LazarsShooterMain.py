@@ -96,6 +96,7 @@ class Player(pygame.sprite.Sprite):
 
     display.blit(player_weapon_copy, (self.x+30 - int(player_weapon_copy.get_width()/2),self.y+35-int(player_weapon_copy.get_height()/2)))
 
+#function that updates the player object every frame
   def update(self,display):
     if self.counter + 1 >= 24:
       self.counter = 0
@@ -207,6 +208,7 @@ class Enemy(pygame.sprite.Sprite):
     self.health -= 25
     display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
 
+#Class for making walls which players can't go trought, but some enemies can
 class Wall(pygame.sprite.Sprite):
   def __init__(self,x,y,width,height):
     super().__init__()
@@ -225,6 +227,7 @@ def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textRect.center = ((buttonx+(buttonw/2), buttony + (buttonh/2)))
   display.blit(textSurf, textRect)
 
+#rendering text and fonts
 def text_objects(text,color,size):
   if size == "small":
     textSurface = smallfont.render(text,True,color)
@@ -242,6 +245,7 @@ def message_to_screen(msg,color, y_displace = 0, size = "small"):
   textRect.center = (display_width/2), (display_height/2) + y_displace
   display.blit(textSurf, textRect)
 
+#defining user interface buttons
 def button(text, x,y,w,h, inactive_color, active_color, action = None):
   cur = pygame.mouse.get_pos()
   click = pygame.mouse.get_pressed()
@@ -274,6 +278,7 @@ def button(text, x,y,w,h, inactive_color, active_color, action = None):
 
   text_to_button(text,BLACK,x,y,w,h)
 
+#Defining the game intro with background, buttons that start the game, show controls and let the player quit respectively
 def game_intro():
 
   intro = True
@@ -421,6 +426,7 @@ def gameLoop():
       player.moving = True
     #endif
 
+    #scrolling trough the weapons for the player
     if keys[pygame.K_1]:
       player.weapon = player.weapon_list[0]
     if keys[pygame.K_2]:
@@ -428,6 +434,8 @@ def gameLoop():
     if keys[pygame.K_3]:
       player.weapon = player.weapon_list[2]
  
+
+    #collision detection for enemies and player bulletsss
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, False, True)
     for enemy in enemy_hit_list:
       #pygame.draw.rect(display, RED, (enemy.rect.x,enemy.rect.y,32,32))
