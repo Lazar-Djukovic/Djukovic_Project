@@ -343,18 +343,20 @@ display_scroll = [0,0]
 #Creating a list of walls
 wall_group = pygame.sprite.Group()
 
-# Create a list of enemies
+# Creating a list of enemies
 enemy_group = pygame.sprite.Group()
 
-# Create a list of all sprites 
+# Creating a list of all sprites 
 all_sprites_group = pygame.sprite.Group() 
 
-# List of bullets
+# The ist of bullets
 bullet_group = pygame.sprite.Group()
 
-# List for the player
+# A list for the player, may seem unnecessary as there is only one, but it allows
+# me to use pygames built in sprite group collision system
 player_group = pygame.sprite.Group()
 
+# random creation of enemies, just a placeholder for testing
 for i in range(20):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
   all_sprites_group.add(enemy)
