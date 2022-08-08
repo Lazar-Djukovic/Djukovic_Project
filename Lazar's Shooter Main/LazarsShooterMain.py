@@ -208,6 +208,12 @@ class Enemy(pygame.sprite.Sprite):
     self.health -= 25
     display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
 
+
+#class BlueEnemy(Enemy):
+    #def __init__(self,x,y,width,height,health):
+        #super(BlueEnemy, self).__init__(self,x,y,width,height,health)
+    
+
 #Class for making walls which players can't go trought, but some enemies can
 class Wall(pygame.sprite.Sprite):
   def __init__(self,x,y,width,height):
