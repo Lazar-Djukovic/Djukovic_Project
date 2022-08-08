@@ -340,6 +340,9 @@ def controls():
 #The x and y for displacing screen and sprites
 display_scroll = [0,0]
 
+#Creating a list of walls
+wall_group = pygame.sprite.Group()
+
 # Create a list of enemies
 enemy_group = pygame.sprite.Group()
 
@@ -366,6 +369,7 @@ player_group.add(player)
 
 mywall = Wall(100,200,300,30)
 all_sprites_group.add(mywall)
+wall_group.add(mywall)
 
 
 #The main game loop
@@ -448,16 +452,21 @@ def gameLoop():
       enemy.hit()
     #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
-    #Updates all of the sprites on screen
+    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
+    for sprite in wall_collisions:
+      pass
+    # make an method that stops the enemy,player and the bullet upon collision
+
+    # Updates all of the sprites on screen
     all_sprites_group.update(display)
 
-    #Tick the clock and update the display
+    # Tick the clock and update the display
     clock.tick(60)
     pygame.display.update()
-  #endfunction
+  # endfunction
 
-#Calling the game loop as well as start screen, 
-# added __main__ beacuse i want to use libraries with this main code
+# Calling the game loop as well as start screen, 
+#  added __main__ beacuse i want to use libraries with this main code
 if __name__ == '__main__':
   game_intro()
   gameLoop()
