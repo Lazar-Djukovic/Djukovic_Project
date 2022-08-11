@@ -368,7 +368,7 @@ player = Player(640,360,64,64,100,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
-
+#makint temporary
 mywall = Wall(100,200,300,30)
 all_sprites_group.add(mywall)
 wall_group.add(mywall)
