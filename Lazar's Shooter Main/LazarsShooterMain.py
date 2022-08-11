@@ -313,7 +313,7 @@ def game_intro():
     pygame.display.update()
     clock.tick(15)
 
-#The controls screen definition
+#The controls screen as a method
 def controls():
 
   controls = True
