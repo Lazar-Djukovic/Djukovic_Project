@@ -454,9 +454,10 @@ def gameLoop():
       enemy.hit()
     #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
 
-    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
-    for sprite in wall_collisions:
-      pass
+    #wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
+    #for sprite in wall_collisions:
+      #pass
+      
     # make an method that stops the enemy,player and the bullet upon collision
 
     # Updates all of the sprites on screen
