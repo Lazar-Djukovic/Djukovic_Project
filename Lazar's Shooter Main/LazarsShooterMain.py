@@ -60,17 +60,23 @@ background = (pygame.image.load('IntroBackground.png'))
 class Player(pygame.sprite.Sprite):
   def __init__(self, x, y, width, height,health,weapon):
     super().__init__()
+
     self.x = x
     self.y =y
+ 
     self.width = width
     self.height = height
+
     self.counter = 0
     self.moving = False
+    self.direction = 'front'
+
     self.health = health
     self.weapon = weapon
     self.damage = 0
     self.weaponimg = player_rifle_img
     self.weapon_list = ['Rifle','Revolver','bow']
+    
 
   #Function for handling, rotating and possibly switching weapons
   def handle_weapons(self,display):
@@ -305,9 +311,14 @@ def game_intro():
     message_to_screen('---', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
 
+    pygame.draw.rect(display, BLACK, (558,383,180,70))
+    pygame.draw.rect(display, BLACK, (558,473,180,70))
+    pygame.draw.rect(display, BLACK, (558,563,180,70))
+
     button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
     button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
     button('Quit', 560,560,180,70, RED, LIGHT_RED, action = 'quit')
+
 
 
     pygame.display.update()
@@ -328,13 +339,16 @@ def controls():
     display.blit(background,(0,0))
     message_to_screen('Tutorial and controls placeholder text', BLACK, -70)
 
+    pygame.draw.rect(display, BLACK, (558,383,180,70))
+    pygame.draw.rect(display, BLACK, (558,473,180,70))
+    pygame.draw.rect(display, BLACK, (558,563,180,70))
+
     button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
     button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
     button('Quit', 560,560,180,70, RED, LIGHT_RED, action = 'quit')
 
     pygame.display.update()
     clock.tick(15)
-
 
 
 #The x and y for displacing screen and sprites
@@ -363,16 +377,17 @@ for i in range(20):
   enemy_group.add(enemy)
 #next i
 
-#Creating the instance of the player
-player = Player(640,360,64,64,100,'Rifle')
-all_sprites_group.add(player)
-player_group.add(player)
+
 
 #making temporary walls for testing collisions
 mywall = Wall(100,200,300,30)
 all_sprites_group.add(mywall)
 wall_group.add(mywall)
 
+#Creating the instance of the player
+player = Player(640,360,64,64,100,'Rifle')
+all_sprites_group.add(player)
+player_group.add(player)
 
 #The main game loop
 def gameLoop():
