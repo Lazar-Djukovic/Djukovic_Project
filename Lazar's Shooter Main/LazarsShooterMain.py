@@ -17,6 +17,7 @@ YELLOW = (200,200,0)
 LIGHT_YELLOW = (255,255,0)
 BROWN = (210,105,30)
 BLUE = (0,0,250)
+GRAY = (80,80,80)
 
 #Screen resolution
 display_width = 1280
@@ -61,6 +62,9 @@ class Player(pygame.sprite.Sprite):
   def __init__(self, x, y, width, height,health,weapon):
     super().__init__()
 
+#
+# MAKE THE PLAYER HAVE SELF.RECT.X AND Y !!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
     self.x = x
     self.y =y
  
@@ -104,6 +108,9 @@ class Player(pygame.sprite.Sprite):
 
 #function that updates the player object every frame
   def update(self,display):
+
+    self.Shadow(self.x,self.y)
+
     if self.counter + 1 >= 24:
       self.counter = 0
     #endif
@@ -122,8 +129,12 @@ class Player(pygame.sprite.Sprite):
     self.handle_weapons(display)
     self.PlayerHealth(950,660,320,50)
 
+
   def PlayerHealth(self,x,y,w,h):
     pygame.draw.rect(display, RED, (x,y,w,h))
+
+  def Shadow(self,x,y):
+    pygame.draw.ellipse(display, GRAY, [x+16,y+55,32,14])
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
@@ -162,7 +173,6 @@ class Enemy(pygame.sprite.Sprite):
     self.height = height
     self.image = pygame.Surface([32,32])
     
-
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
@@ -176,6 +186,8 @@ class Enemy(pygame.sprite.Sprite):
     self.health = health
   
   def update(self,display):
+
+    self.Shadow(self.rect.x,self.rect.y)
 
     #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,32,32)) #This was a hitbox test
     if self.health < 0:
@@ -213,6 +225,9 @@ class Enemy(pygame.sprite.Sprite):
   def hit(self):
     self.health -= 25
     display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
+  
+  def Shadow(self,x,y):
+    pygame.draw.ellipse(display, GRAY, [x-5,y+23,42,18])
 
 
 #class BlueEnemy(Enemy):
