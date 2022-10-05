@@ -9,12 +9,12 @@ GROUNDGREEN = (43,132,88)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 BULLETYELLOW = (250,253,15)
-RED = (200,0,0)
-LIGHT_RED = (255,0,0)
+RED = (170,0,0)
+LIGHT_RED = (255,20,10)
 GREEN = (0,175,0)
 LIGHT_GREEN = (0,255,0)
-YELLOW = (200,200,0)
-LIGHT_YELLOW = (255,255,0)
+YELLOW = (253,165,15)
+LIGHT_YELLOW = (252,226,5)
 BROWN = (210,105,30)
 BLUE = (0,0,250)
 GRAY = (80,80,80)
@@ -391,7 +391,6 @@ for i in range(20):
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
 #next i
-
 
 
 #making temporary walls for testing collisions
