@@ -254,7 +254,7 @@ def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textRect.center = ((buttonx+(buttonw/2), buttony + (buttonh/2)))
   display.blit(textSurf, textRect)
 
-#rendering text and fonts
+#function for rendering text and fonts
 def text_objects(text,color,size):
   if size == "small":
     textSurface = smallfont.render(text,True,color)
@@ -265,6 +265,7 @@ def text_objects(text,color,size):
 
   return textSurface, textSurface.get_rect()
 
+#function for displaying a message on the screen
 def message_to_screen(msg,color, y_displace = 0, size = "small"):
   #screen_text = font.render(msg, True, color)
   #gameDisplay.blit(screen_text, [display_width/3, display_height/2])
@@ -272,7 +273,7 @@ def message_to_screen(msg,color, y_displace = 0, size = "small"):
   textRect.center = (display_width/2), (display_height/2) + y_displace
   display.blit(textSurf, textRect)
 
-#defining user interface buttons
+#defining user interface buttons and its actions
 def button(text, x,y,w,h, inactive_color, active_color, action = None):
   cur = pygame.mouse.get_pos()
   click = pygame.mouse.get_pressed()
