@@ -62,14 +62,15 @@ class Player(pygame.sprite.Sprite):
   def __init__(self, x, y, width, height,health,weapon):
     super().__init__()
 
-#
-# MAKE THE PLAYER HAVE SELF.RECT.X AND Y !!!!!!!!!!!!!!!!!!!!!!!!!!!
-#
-    self.x = x
-    self.y =y
- 
     self.width = width
     self.height = height
+
+    self.image = pygame.Surface([self.width,self.height])
+
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y =y
+
 
     self.counter = 0
     self.moving = False
@@ -86,7 +87,7 @@ class Player(pygame.sprite.Sprite):
   def handle_weapons(self,display):
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
-    rel_x, rel_y = mouse_x - self.x, mouse_y - self.y
+    rel_x, rel_y = mouse_x - self.rect.x, mouse_y - self.rect.y
     angle = (180/math.pi) * -math.atan2(rel_y, rel_x)
 
     if self.weapon == 'Rifle':
@@ -104,12 +105,12 @@ class Player(pygame.sprite.Sprite):
       player_weapon_copy = pygame.transform.rotate(player_weapon_copy2, angle)
     #endif
 
-    display.blit(player_weapon_copy, (self.x+30 - int(player_weapon_copy.get_width()/2),self.y+35-int(player_weapon_copy.get_height()/2)))
+    display.blit(player_weapon_copy, (self.rect.x+30 - int(player_weapon_copy.get_width()/2),self.rect.y+35-int(player_weapon_copy.get_height()/2)))
 
 #function that updates the player object every frame
   def update(self,display):
 
-    self.Shadow(self.x,self.y)
+    self.Shadow(self.rect.x,self.rect.y)
 
     if self.counter + 1 >= 24:
       self.counter = 0
@@ -118,12 +119,12 @@ class Player(pygame.sprite.Sprite):
     
     #Animating the player by altering between images while he is moving
     if self.moving == True:
-      display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.x,self.y))
+      display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
     else:
-      display.blit(pygame.transform.scale(player_idle_img, (self.width,self.height)), (self.x,self.y))
+      display.blit(pygame.transform.scale(player_idle_img, (self.width,self.height)), (self.rect.x,self.rect.y))
     #endif
 
-    #pygame.draw.rect(display, RED, (self.x, self.y, self.width, self.height))
+    #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y, self.width, self.height))
     self.moving = False
 
     self.handle_weapons(display)
@@ -136,6 +137,9 @@ class Player(pygame.sprite.Sprite):
 
   def Shadow(self,x,y):
     pygame.draw.ellipse(display, GRAY, [x+16,y+55,32,14])
+
+  def Hit(self,enemy_damage):
+    self.health = self.health - enemy_damage
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
@@ -203,15 +207,15 @@ class Enemy(pygame.sprite.Sprite):
       self.reset_offset -= 1
     #endif
 
-    if player.x + self.offset_x > self.rect.x - display_scroll[0]:
+    if player.rect.x + self.offset_x > self.rect.x - display_scroll[0]:
       self.rect.x += 1
-    elif player.x + self.offset_x < self.rect.x - display_scroll[0]:
+    elif player.rect.x + self.offset_x < self.rect.x - display_scroll[0]:
       self.rect.x -= 1
     #endif
 
-    if player.y + self.offset_y > self.rect.y - display_scroll[1]:
+    if player.rect.y + self.offset_y > self.rect.y - display_scroll[1]:
       self.rect.y += 1
-    elif player.y + self.offset_y < self.rect.y - display_scroll[1]:
+    elif player.rect.y + self.offset_y < self.rect.y - display_scroll[1]:
       self.rect.y -= 1
     #endif
 
@@ -400,7 +404,7 @@ all_sprites_group.add(mywall)
 wall_group.add(mywall)
 
 #Creating the instance of the player
-player = Player(640,360,64,64,100,'Rifle')
+player = Player(640,360,64,64,320,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
@@ -421,7 +425,7 @@ def gameLoop():
 
       if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 1:
-          bullet = (PlayerBullet(player.x+35, player.y+30, mouse_x, mouse_y,5))
+          bullet = (PlayerBullet(player.rect.x+35, player.rect.y+30, mouse_x, mouse_y,5))
           bullet_group.add(bullet)
           all_sprites_group.add(bullet)
         #endif
@@ -482,7 +486,11 @@ def gameLoop():
     for enemy in enemy_hit_list:
       #pygame.draw.rect(display, RED, (enemy.rect.x,enemy.rect.y,32,32))
       enemy.hit()
-    #player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
+
+    player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
+    for enemy in player_hit_list:
+      player.Hit(5)
+
 
     #wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     #for sprite in wall_collisions:
