@@ -127,11 +127,12 @@ class Player(pygame.sprite.Sprite):
     self.moving = False
 
     self.handle_weapons(display)
-    self.PlayerHealth(950,660,320,50)
+    self.PlayerHealth(950,660,320,50,self.health)
 
 
-  def PlayerHealth(self,x,y,w,h):
-    pygame.draw.rect(display, RED, (x,y,w,h))
+  def PlayerHealth(self,x,y,w,h,health):
+    pygame.draw.rect(display, BLACK, (x,y,w,h))
+    pygame.draw.rect(display, RED, (x,y,health,h))
 
   def Shadow(self,x,y):
     pygame.draw.ellipse(display, GRAY, [x+16,y+55,32,14])
@@ -334,7 +335,6 @@ def game_intro():
     button('Play', 560,380,180,70, GREEN, LIGHT_GREEN, action='play')
     button('Controls', 560,470,180,70, YELLOW, LIGHT_YELLOW,action = 'controls')
     button('Quit', 560,560,180,70, RED, LIGHT_RED, action = 'quit')
-
 
 
     pygame.display.update()
