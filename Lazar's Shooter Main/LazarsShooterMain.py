@@ -157,7 +157,8 @@ class Player(pygame.sprite.Sprite):
     if self.invincible == False:
       self.health = self.health - enemy_damage
       self.invincible = True
-    
+    if self.health < 0:
+      pygame.quit()
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
@@ -409,7 +410,7 @@ bullet_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 # random creation of enemies, just a placeholder for testing
-for i in range(20):
+for i in range(3):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
@@ -510,9 +511,9 @@ def gameLoop():
       player.Hit(25)
 
 
-    #wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
-    #for sprite in wall_collisions:
-      #pass
+    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
+    for sprite in wall_collisions:
+      pass
       
     # make an method that stops the enemy,player and the bullet upon collision
 
