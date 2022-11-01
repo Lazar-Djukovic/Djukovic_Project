@@ -71,6 +71,11 @@ class Player(pygame.sprite.Sprite):
     self.rect.x = x
     self.rect.y =y
 
+    #reload counter needed!
+
+    #counter and variable to stop player for being damaged for a few seconds after taking damage.
+    self.invincible = False
+    self.damage_counter = 0
 
     self.counter = 0
     self.moving = False
@@ -130,6 +135,11 @@ class Player(pygame.sprite.Sprite):
     self.handle_weapons(display)
     self.PlayerHealth(950,660,320,50,self.health)
 
+    if self.invincible == True:
+      self.damage_counter += 1
+      if self.damage_counter > 10:
+        self.invincible = False
+        self.damage_counter = 0
 
   def PlayerHealth(self,x,y,w,h,health):
     pygame.draw.rect(display, BLACK, (x,y,w,h))
@@ -139,7 +149,10 @@ class Player(pygame.sprite.Sprite):
     pygame.draw.ellipse(display, GRAY, [x+16,y+55,32,14])
 
   def Hit(self,enemy_damage):
-    self.health = self.health - enemy_damage
+    if self.invincible == False:
+      self.health = self.health - enemy_damage
+      self.invincible = True
+    
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
