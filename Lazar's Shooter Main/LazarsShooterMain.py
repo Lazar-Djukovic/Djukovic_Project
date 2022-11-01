@@ -86,6 +86,11 @@ class Player(pygame.sprite.Sprite):
     self.damage = 0
     self.weaponimg = player_rifle_img
     self.weapon_list = ['Rifle','Revolver','bow']
+
+    #ammunition for all of the weapons
+    self.rifle_ammo = 50
+    self.pistol_ammo = 50
+    self.rocks = 50 #for a slingshot
     
 
   #Function for handling, rotating and possibly switching weapons
@@ -502,7 +507,7 @@ def gameLoop():
 
     player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
     for enemy in player_hit_list:
-      player.Hit(5)
+      player.Hit(25)
 
 
     #wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
