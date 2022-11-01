@@ -32,7 +32,7 @@ largefont = pygame.font.SysFont("Verdana",65)
 #Window caption and clock
 pygame.display.set_caption('<Shooter/>')
 clock = pygame.time.Clock()
-offspeed = 4
+offset_speed = 4
 
 #Loading and transforming all images, as well as setting colorkeys
 player_walk_img = [pygame.image.load('PlayerSprites/Player1.png'),pygame.image.load('PlayerSprites/Player2.png')]
@@ -427,44 +427,44 @@ def gameLoop():
         #endif
       #endif
 
-
+    #the center of the map
     pygame.draw.rect(display, WHITE, (100-display_scroll[0],100-display_scroll[1],16,16))
 
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_a]:
-      display_scroll[0] -= offspeed
+      display_scroll[0] -= offset_speed
       for bullet in bullet_group:
-        bullet.rect.x +=offspeed
+        bullet.rect.x += offset_speed
       for enemy in enemy_group:
-        enemy.rect.x +=offspeed
+        enemy.rect.x += offset_speed
       player.moving = True
     #endif
 
     if keys[pygame.K_d]:
-      display_scroll[0] += offspeed
+      display_scroll[0] += offset_speed
       for bullet in bullet_group:
-        bullet.rect.x -=offspeed
+        bullet.rect.x -= offset_speed
       for enemy in enemy_group:
-        enemy.rect.x -=offspeed
+        enemy.rect.x -= offset_speed
       player.moving = True
     #endif
 
     if keys[pygame.K_w]:
-      display_scroll[1] -= offspeed
+      display_scroll[1] -= offset_speed
       for bullet in bullet_group:
-        bullet.rect.y += offspeed
+        bullet.rect.y += offset_speed
       for enemy in enemy_group:
-        enemy.rect.y +=offspeed
+        enemy.rect.y += offset_speed
       player.moving = True
     #endif
 
     if keys[pygame.K_s]:
-      display_scroll[1] += offspeed
+      display_scroll[1] += offset_speed
       for bullet in bullet_group:
-        bullet.rect.y -= offspeed
+        bullet.rect.y -= offset_speed
       for enemy in enemy_group:
-        enemy.rect.y -=offspeed
+        enemy.rect.y -= offset_speed
       player.moving = True
     #endif
 
