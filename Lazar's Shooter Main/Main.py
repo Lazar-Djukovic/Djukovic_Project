@@ -191,7 +191,7 @@ class PlayerBullet(pygame.sprite.Sprite):
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
-  def __init__(self,x,y,width,height,health):
+  def __init__(self,x,y,width,height,health,damage):
     super().__init__()
     self.width = width
     self.height = height
@@ -208,6 +208,7 @@ class Enemy(pygame.sprite.Sprite):
     self.offset_y = random.randrange(-160,200)
 
     self.health = health
+    self.damage = self.health
   
   def update(self,display):
 
@@ -411,7 +412,7 @@ player_group = pygame.sprite.Group()
 
 # random creation of enemies, just a placeholder for testing
 for i in range(3):
-  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50)]
+  enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50,30)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
 #next i
@@ -508,8 +509,8 @@ def gameLoop():
 
     player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
     for enemy in player_hit_list:
-      player.Hit(25)
-
+      player.Hit(30)
+      #enemy.damage attribute instead of this 30
 
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
