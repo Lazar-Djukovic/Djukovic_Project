@@ -542,8 +542,9 @@ def gameLoop():
 
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
-      sprite.Collide('under')
-      sprite.collision = True
+      #sprite.Collide('under')
+      #sprite.collision = True
+      pass
       
     # make an method that stops the enemy,player and the bullet upon collision
 
