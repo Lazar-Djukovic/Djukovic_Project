@@ -162,7 +162,7 @@ class Player(pygame.sprite.Sprite):
       pygame.quit()
 
   def Collide(self,position):
-    print('collided!')
+
     if self.collision == True:
       if position == 'under':
         self.rect.x += offset_speed
@@ -201,6 +201,9 @@ class PlayerBullet(pygame.sprite.Sprite):
       pygame.draw.rect(display, BROWN, (self.rect.x, self.rect.y,self.size+5,self.size+3))
     else:
       pygame.draw.rect(display, BULLETYELLOW, (self.rect.x, self.rect.y,self.size,self.size))
+
+  def Collide(self,position):
+    self.kill()
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
@@ -540,6 +543,7 @@ def gameLoop():
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
       sprite.Collide('under')
+      sprite.collision = True
       
     # make an method that stops the enemy,player and the bullet upon collision
 
