@@ -272,18 +272,19 @@ class Enemy(pygame.sprite.Sprite):
         #super(BlueEnemy, self).__init__(self,x,y,width,height,health)
     
 
-#Class for making walls which players can't go trought, but some enemies can
+#Class for making walls which players can't go trought, but some enemies may be able to
 class Wall(pygame.sprite.Sprite):
   def __init__(self,x,y,width,height):
     super().__init__()
     self.width = width
     self.height = height
-    self.image = pygame.Surface([32,32])
+    self.image = pygame.Surface([self.width,self.height])
     self.rect = self.image.get_rect()
-    self.rect.x = x
-    self.rect.y = y
+    self.rect.x = x 
+    self.rect.y = y 
+
   def update(self,display):
-    pygame.draw.rect(display, BLUE, (self.rect.x-display_scroll[0], self.rect.y-display_scroll[1],self.width,self.height))
+    pygame.draw.rect(display, BLUE, (self.rect.x- display_scroll[0], self.rect.y- display_scroll[1],self.width,self.height))
 
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
@@ -528,7 +529,7 @@ def gameLoop():
       #enemy.damage attribute instead of this 30
 
     wall_collisions = pygame.sprite.groupcollide(wall_group, all_sprites_group, False, False)
-    print(wall_group)
+    print(wall_collisions)
       
     # make an method that stops the enemy,player and the bullet upon collision
 
