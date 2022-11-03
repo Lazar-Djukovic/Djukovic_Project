@@ -185,7 +185,7 @@ class PlayerBullet(pygame.sprite.Sprite):
 
     self.mouse_x = mouse_x
     self.mouse_y = mouse_y
-    self.size = size
+
     self.speed = 15
     
     #calculating the angle at which the bullet will be shot
@@ -204,6 +204,24 @@ class PlayerBullet(pygame.sprite.Sprite):
 
   def Collide(self,position):
     self.kill()
+
+class Item(pygame.sprite.Sprite):
+  def __init__(self, x, y, size,type):
+    super().__init__()
+    self.size = size
+    self.image = pygame.Surface([self.size,self.size])
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
+
+    self.type = type
+
+  def update(self,display):
+    if self.type == 'health':
+      pygame.draw.rect(display, RED, (self.rect.x - display_scroll[0], self.rect.y- display_scroll[1],self.size,self.size))
+
+  def Health(self):
+    player.health += 50
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
@@ -431,6 +449,8 @@ all_sprites_group = pygame.sprite.Group()
 # The ist of bullets
 bullet_group = pygame.sprite.Group()
 
+#
+
 # A list for the player, may seem unnecessary as there is only one, but it allows
 # me to use pygames built in sprite group collision system
 player_group = pygame.sprite.Group()
@@ -455,6 +475,10 @@ wall_group.add(mywall2)
 player = Player(640,360,64,64,320,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
+
+mypickup = Item(0,10,15,'health')
+all_sprites_group.add(mypickup)
+
 
 #The main game loop
 def gameLoop():
@@ -536,6 +560,11 @@ def gameLoop():
       enemy.hit()
 
     player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
+    for enemy in player_hit_list:
+      player.Hit(30)
+      #enemy.damage attribute instead of this 30
+
+    Item_got_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
     for enemy in player_hit_list:
       player.Hit(30)
       #enemy.damage attribute instead of this 30
