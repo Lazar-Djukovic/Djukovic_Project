@@ -162,6 +162,7 @@ class Player(pygame.sprite.Sprite):
       pygame.quit()
 
   def Collide(self,position):
+    print('collided!')
     if self.collision == True:
       if position == 'under':
         self.rect.x += offset_speed
@@ -266,6 +267,9 @@ class Enemy(pygame.sprite.Sprite):
   def Shadow(self,x,y):
     pygame.draw.ellipse(display, GRAY, [x-5,y+23,42,18])
 
+  def Collide(self,direction):
+    pass
+
 
 #class BlueEnemy(Enemy):
     #def __init__(self,x,y,width,height,health):
@@ -287,6 +291,9 @@ class Wall(pygame.sprite.Sprite):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
     pygame.draw.rect(display, BLUE, (self.rect.x, self.rect.y,self.width,self.height))
+
+  def Collide(self,direction):
+    pass
 
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
@@ -530,8 +537,9 @@ def gameLoop():
       player.Hit(30)
       #enemy.damage attribute instead of this 30
 
-    wall_collisions = pygame.sprite.groupcollide(wall_group, all_sprites_group, False, False)
-    print(wall_collisions)
+    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
+    for sprite in wall_collisions:
+      sprite.Collide('under')
       
     # make an method that stops the enemy,player and the bullet upon collision
 
