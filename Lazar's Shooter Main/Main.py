@@ -211,17 +211,23 @@ class Item(pygame.sprite.Sprite):
     self.size = size
     self.image = pygame.Surface([self.size,self.size])
     self.rect = self.image.get_rect()
-    self.rect.x = x
-    self.rect.y = y
+    self.x = x
+    self.y = y
 
     self.type = type
 
   def update(self,display):
-    if self.type == 'health':
-      pygame.draw.rect(display, RED, (self.rect.x - display_scroll[0], self.rect.y- display_scroll[1],self.size,self.size))
 
-  def Health(self):
-    player.health += 50
+    self.rect.x = self.x - display_scroll[0]
+    self.rect.y = self.y - display_scroll[1]
+
+    if self.type == 'health':
+      pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,self.size,self.size))
+
+  def use(self):
+    if self.type == 'health':
+      if player.health < 320:
+        player.health += 50
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
@@ -446,10 +452,11 @@ enemy_group = pygame.sprite.Group()
 # Creating a list of all sprites 
 all_sprites_group = pygame.sprite.Group() 
 
-# The ist of bullets
+# The list of bullets
 bullet_group = pygame.sprite.Group()
 
-#
+# The list of all items
+item_group = pygame.sprite.Group()
 
 # A list for the player, may seem unnecessary as there is only one, but it allows
 # me to use pygames built in sprite group collision system
@@ -559,15 +566,14 @@ def gameLoop():
       #pygame.draw.rect(display, RED, (enemy.rect.x,enemy.rect.y,32,32))
       enemy.hit()
 
-    player_hit_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
+    player_hit_list = pygame.sprite.groupcollide(player_group , enemy_group, False, False)
     for enemy in player_hit_list:
       player.Hit(30)
       #enemy.damage attribute instead of this 30
 
-    Item_got_list = pygame.sprite.groupcollide(player_group,enemy_group, False, False)
-    for enemy in player_hit_list:
-      player.Hit(30)
-      #enemy.damage attribute instead of this 30
+    item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, True)
+    for item in item_got_list:
+      print(item)
 
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
