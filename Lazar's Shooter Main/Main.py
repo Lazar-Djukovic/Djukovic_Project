@@ -80,6 +80,7 @@ class Player(pygame.sprite.Sprite):
     self.counter = 0
     self.moving = False
     self.direction = 'front'
+    self.collision = False
 
     self.health = health
     self.weapon = weapon
@@ -411,7 +412,7 @@ bullet_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 
 # random creation of enemies, just a placeholder for testing
-for i in range(3):
+for i in range(5):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50,30)]
   all_sprites_group.add(enemy)
   enemy_group.add(enemy)
@@ -420,8 +421,11 @@ for i in range(3):
 
 #making temporary walls for testing collisions
 mywall = Wall(100,200,300,30)
-all_sprites_group.add(mywall)
+mywall2 = Wall(100,200,30,300)
+#all_sprites_group.add(mywall)
 wall_group.add(mywall)
+wall_group.add(mywall2)
+
 
 #Creating the instance of the player
 player = Player(640,360,64,64,320,'Rifle')
@@ -512,14 +516,15 @@ def gameLoop():
       player.Hit(30)
       #enemy.damage attribute instead of this 30
 
-    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
+    wall_collisions = pygame.sprite.groupcollide(wall_group, all_sprites_group, False, False)
     for sprite in wall_collisions:
-      pass
+      sprite.rect.x += offset_speed
       
     # make an method that stops the enemy,player and the bullet upon collision
 
     # Updates all of the sprites on screen
     all_sprites_group.update(display)
+    wall_group.update(display)
 
     # Tick the clock and update the display
     clock.tick(60)
