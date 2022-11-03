@@ -161,6 +161,17 @@ class Player(pygame.sprite.Sprite):
     if self.health < 0:
       pygame.quit()
 
+  def Collide(self,position):
+    if self.collision == True:
+      if position == 'under':
+        self.rect.x += offset_speed
+      if position == 'above':
+        self.rect.x -= offset_speed
+      if position == 'left':
+        self.rect.y += offset_speed
+      if position == 'right':
+        self.rect.y += offset_speed
+
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
   def __init__(self, x, y, mouse_x, mouse_y,size):
@@ -517,8 +528,7 @@ def gameLoop():
       #enemy.damage attribute instead of this 30
 
     wall_collisions = pygame.sprite.groupcollide(wall_group, all_sprites_group, False, False)
-    for sprite in wall_collisions:
-      sprite.rect.x += offset_speed
+    print(wall_group)
       
     # make an method that stops the enemy,player and the bullet upon collision
 
