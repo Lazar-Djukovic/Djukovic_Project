@@ -280,11 +280,13 @@ class Wall(pygame.sprite.Sprite):
     self.height = height
     self.image = pygame.Surface([self.width,self.height])
     self.rect = self.image.get_rect()
-    self.rect.x = x 
-    self.rect.y = y 
+    self.x = x
+    self.y = y
 
   def update(self,display):
-    pygame.draw.rect(display, BLUE, (self.rect.x- display_scroll[0], self.rect.y- display_scroll[1],self.width,self.height))
+    self.rect.x = self.x - display_scroll[0]
+    self.rect.y = self.y - display_scroll[1]
+    pygame.draw.rect(display, BLUE, (self.rect.x, self.rect.y,self.width,self.height))
 
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
