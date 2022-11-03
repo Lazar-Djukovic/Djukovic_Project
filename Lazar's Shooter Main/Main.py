@@ -206,7 +206,7 @@ class PlayerBullet(pygame.sprite.Sprite):
     self.kill()
 
 class Item(pygame.sprite.Sprite):
-  def __init__(self, x, y, size,type):
+  def __init__(self, x, y, size, type):
     super().__init__()
     self.size = size
     self.image = pygame.Surface([self.size,self.size])
@@ -221,8 +221,10 @@ class Item(pygame.sprite.Sprite):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
 
+    self.image.fill(RED)
+
     if self.type == 'health':
-      pygame.draw.rect(display, RED, (self.rect.x, self.rect.y,self.size,self.size))
+      pygame.draw.rect(display, RED, (self.rect.x, self.rect.y ,self.size,self.size))
 
   def use(self):
     if self.type == 'health':
@@ -317,6 +319,7 @@ class Wall(pygame.sprite.Sprite):
   def update(self,display):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
+
     pygame.draw.rect(display, BLUE, (self.rect.x, self.rect.y,self.width,self.height))
 
   def Collide(self,direction):
