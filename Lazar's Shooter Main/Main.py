@@ -484,7 +484,7 @@ player = Player(640,360,64,64,320,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
-mypickup = Item(0,10,15,'health')
+mypickup = Item(0,10,32,'health')
 all_sprites_group.add(mypickup)
 item_group.add(mypickup)
 
