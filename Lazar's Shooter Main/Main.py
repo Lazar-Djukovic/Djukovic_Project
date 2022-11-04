@@ -221,8 +221,6 @@ class Item(pygame.sprite.Sprite):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
 
-    self.image.fill(RED)
-
     if self.type == 'health':
       pygame.draw.rect(display, RED, (self.rect.x, self.rect.y ,self.size,self.size))
 
@@ -488,6 +486,7 @@ player_group.add(player)
 
 mypickup = Item(0,10,15,'health')
 all_sprites_group.add(mypickup)
+item_group.add(mypickup)
 
 
 #The main game loop
@@ -575,8 +574,9 @@ def gameLoop():
       #enemy.damage attribute instead of this 30
 
     item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, True)
-    for item in item_got_list:
-      print(item)
+    for i in item_got_list:
+      mypickup.use()
+        
 
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
