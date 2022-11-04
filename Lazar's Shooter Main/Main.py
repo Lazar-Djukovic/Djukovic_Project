@@ -50,6 +50,10 @@ bow_img = pygame.image.load('Weapons/bow.png').convert()
 player_bow_img = pygame.transform.scale(bow_img,(64,64))
 player_bow_img.set_colorkey((BLACK))
 
+health_load_img = pygame.image.load('Items/health.png').convert()
+health_img = pygame.transform.scale(health_load_img,(38,38))
+health_img.set_colorkey((BLACK))
+
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
 RedEnemyH = pygame.image.load('Enemies/RedAlien2.png')
@@ -81,6 +85,7 @@ class Player(pygame.sprite.Sprite):
     self.moving = False
     self.direction = 'front'
     self.collision = False
+    self.health_needed = False
 
     self.health = health
     self.weapon = weapon
@@ -91,7 +96,7 @@ class Player(pygame.sprite.Sprite):
     #ammunition for all of the weapons
     self.rifle_ammo = 50
     self.pistol_ammo = 50
-    self.rocks = 50 #for a slingshot
+    self.rocks = 50   #for a slingshot
     
 
   #Function for handling, rotating and possibly switching weapons
@@ -130,7 +135,10 @@ class Player(pygame.sprite.Sprite):
     
     #Animating the player by altering between images while he is moving
     if self.moving == True:
-      display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
+      if self.invincible == True:
+        display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
+      else:
+        display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
     else:
       display.blit(pygame.transform.scale(player_idle_img, (self.width,self.height)), (self.rect.x,self.rect.y))
     #endif
@@ -143,9 +151,14 @@ class Player(pygame.sprite.Sprite):
 
     if self.invincible == True:
       self.damage_counter += 1
-      if self.damage_counter > 10:
+      if self.damage_counter > 25:
         self.invincible = False
         self.damage_counter = 0
+
+    if self.health < 320:
+      self.health_needed = True
+    else:
+      self.health_needed = False
 
   def PlayerHealth(self,x,y,w,h,health):
     pygame.draw.rect(display, BLACK, (x,y,w,h))
@@ -222,7 +235,7 @@ class Item(pygame.sprite.Sprite):
     self.rect.y = self.y - display_scroll[1]
 
     if self.type == 'health':
-      pygame.draw.rect(display, RED, (self.rect.x, self.rect.y ,self.size,self.size))
+      display.blit(health_img,(self.rect.x,self.rect.y))
 
   def use(self):
     if self.type == 'health':
@@ -248,7 +261,7 @@ class Enemy(pygame.sprite.Sprite):
     self.offset_y = random.randrange(-160,200)
 
     self.health = health
-    self.damage = self.health
+    self.damage = damage
   
   def update(self,display):
 
@@ -484,9 +497,10 @@ player = Player(640,360,64,64,320,'Rifle')
 all_sprites_group.add(player)
 player_group.add(player)
 
-mypickup = Item(0,10,32,'health')
-all_sprites_group.add(mypickup)
-item_group.add(mypickup)
+for i in range(3):
+  mypickup = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
+  all_sprites_group.add(mypickup)
+  item_group.add(mypickup)
 
 
 #The main game loop
@@ -573,7 +587,7 @@ def gameLoop():
       player.Hit(30)
       #enemy.damage attribute instead of this 30
 
-    item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, True)
+    item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, player.health_needed)
     for i in item_got_list:
       mypickup.use()
         
