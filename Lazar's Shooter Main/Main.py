@@ -442,7 +442,7 @@ def controls():
     display.blit(background,(0,0))
     message_to_screen('Your objective is to collect as many points as possible by destroying enemies', BLACK, -70)
     message_to_screen('Aim using the mouse and shoot with left click', BLACK, -50)
-    
+    message_to_screen('Collect health packs in order to heal and swap weapons using 1,2,3', BLACK, -70)
 
     pygame.draw.rect(display, BLACK, (558,383,180,70))
     pygame.draw.rect(display, BLACK, (558,473,180,70))
