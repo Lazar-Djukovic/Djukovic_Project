@@ -54,6 +54,9 @@ health_load_img = pygame.image.load('Items/health.png').convert()
 health_img = pygame.transform.scale(health_load_img,(38,38))
 health_img.set_colorkey((BLACK))
 
+tree_load_img = pygame.image.load('Items/health.png').convert()
+tree_1 = pygame.transform.scale(tree_load_img,(38,38))
+
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
 RedEnemyH = pygame.image.load('Enemies/RedAlien2.png')
