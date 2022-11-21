@@ -36,6 +36,8 @@ clock = pygame.time.Clock()
 offset_speed = 4
 
 #Loading and transforming all images, as well as setting colorkeys
+Ground_img = pygame.image.load('Ground.png')
+
 player_walk_img = [pygame.image.load('PlayerSprites/Player1.png'),pygame.image.load('PlayerSprites/Player2.png')]
 player_idle_img = pygame.image.load('PlayerSprites/PlayerIdle.png')
 
@@ -93,15 +95,17 @@ class Player(pygame.sprite.Sprite):
     self.health_needed = False
 
     self.health = health
+    self.score = 0
     self.weapon = weapon
     self.damage = 0
     self.weaponimg = player_rifle_img
     self.weapon_list = ['Rifle','Revolver','bow']
 
     #ammunition for all of the weapons
+    self.ammo_type = 1
     self.rifle_ammo = 50
-    self.pistol_ammo = 50
-    self.rocks = 50   #for a slingshot
+    self.pistol_ammo = 49
+    self.rocks = 48   #for a slingshot
     
 
   #Function for handling, rotating and possibly switching weapons
@@ -113,10 +117,13 @@ class Player(pygame.sprite.Sprite):
 
     if self.weapon == 'Rifle':
       self.weaponimg = player_rifle_img
+      self.ammo_type = 1
     elif self.weapon == 'Revolver':
       self.weaponimg = player_revolver_img
+      self.ammo_type = 2
     elif self.weapon == 'bow':
       self.weaponimg = player_bow_img
+      self.ammo_type = 3
 
     #Checking if the weapon is on the left or right side of the player and rotating accordingly
     if angle < 90 and angle > -90:
@@ -127,6 +134,7 @@ class Player(pygame.sprite.Sprite):
     #endif
 
     display.blit(player_weapon_copy, (self.rect.x+30 - int(player_weapon_copy.get_width()/2),self.rect.y+35-int(player_weapon_copy.get_height()/2)))
+
 
 #function that updates the player object every frame
   def update(self,display):
@@ -156,6 +164,12 @@ class Player(pygame.sprite.Sprite):
 
     self.handle_weapons(display)
     self.PlayerHealth(950,660,320,50,self.health)
+
+    textSurf, textRect = text_objects('Score:'+str(self.score),BLACK,'medium')
+    display.blit(textSurf, textRect)
+
+    textSurf2, textRect2 = text_objects('Ammo:'+str(self.AmmoType()),BLACK,'medium')
+    display.blit(textSurf2,(950,610))
 
     if self.invincible == True:
       self.damage_counter += 1
@@ -193,6 +207,15 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += offset_speed
       if position == 'right':
         self.rect.y += offset_speed
+
+  def AmmoType(self):
+    if self.ammo_type == 1:
+      return(self.rifle_ammo)
+    if self.ammo_type == 2:
+      return(self.pistol_ammo)
+    if self.ammo_type == 3:
+      return(self.rocks)
+
 
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
@@ -312,6 +335,7 @@ class Enemy(pygame.sprite.Sprite):
   def hit(self):
     self.health -= 25
     display.blit(RedEnemyHit, (self.rect.x-19,self.rect.y-19))
+    player.score += 10
   
   def Shadow(self,x,y):
     pygame.draw.ellipse(display, GRAY, [x-5,y+23,42,18])
@@ -558,7 +582,7 @@ def gameLoop():
   gameOver = False
 
   while not gameExit:
-    display.fill(GROUNDGREEN)
+    display.blit(Ground_img,(-2000 - display_scroll[0],-2000 - display_scroll[1]))
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
