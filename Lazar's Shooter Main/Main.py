@@ -528,11 +528,15 @@ player_group.add(player)
 
 
 #making border walls for testing collisions
-mywall = Wall(-1500,1500,3000,300)
-mywall2 = Wall(100,200,30,300)
+mywall = Wall(-1500,1500,3000,700)
+mywall2 = Wall(-1500,-1500,3000,700)
+mywall3 = Wall(1500,-1500,700,3000)
+#mywall4 = Wall(-1500,1500,700,3000)
 #all_sprites_group.add(mywall)
 wall_group.add(mywall)
 wall_group.add(mywall2)
+wall_group.add(mywall3)
+#wall_group.add(mywall4)
 
 
 
