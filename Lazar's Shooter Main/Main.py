@@ -362,7 +362,7 @@ class Tree(pygame.sprite.Sprite):
       display.blit(tree_1_img,(self.rect.x,self.rect.y))
       
   def Shadow(self,x,y):
-    pygame.draw.ellipse(display, GRAY, [x+40,y+120,60,20])
+    pygame.draw.ellipse(display, GRAY, [x+35,y+120,60,18])
 
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
