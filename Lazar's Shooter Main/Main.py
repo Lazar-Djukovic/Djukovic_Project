@@ -336,6 +336,25 @@ class Wall(pygame.sprite.Sprite):
   def Collide(self,direction):
     pass
 
+class Tree(pygame.sprite.Sprite):
+  def __init__(self, x, y, size, type):
+    super().__init__()
+    self.size = size
+    self.image = pygame.Surface([self.size,self.size])
+    self.rect = self.image.get_rect()
+    self.x = x
+    self.y = y
+
+    self.type = type
+
+  def update(self,display):
+
+    self.rect.x = self.x - display_scroll[0]
+    self.rect.y = self.y - display_scroll[1]
+
+    if self.type == 1:
+      display.blit(tree_1.img,(self.rect.x,self.rect.y))
+
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textSurf, textRect = text_objects(msg,color,size)
