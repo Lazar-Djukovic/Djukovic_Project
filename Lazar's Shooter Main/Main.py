@@ -16,7 +16,7 @@ LIGHT_GREEN = (0,255,0)
 YELLOW = (253,165,15)
 LIGHT_YELLOW = (252,226,5)
 BROWN = (210,105,30)
-BLUE = (0,0,250)
+WALL_GRAY = (47,69,83)
 GRAY = (80,80,80)
 
 #Screen resolution
@@ -32,6 +32,7 @@ largefont = pygame.font.SysFont("Verdana",65)
 #Window caption and clock
 pygame.display.set_caption('<Shooter/>')
 clock = pygame.time.Clock()
+
 offset_speed = 4
 
 #Loading and transforming all images, as well as setting colorkeys
@@ -339,7 +340,7 @@ class Wall(pygame.sprite.Sprite):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
 
-    pygame.draw.rect(display, BLUE, (self.rect.x, self.rect.y,self.width,self.height))
+    pygame.draw.rect(display, WALL_GRAY, (self.rect.x, self.rect.y,self.width,self.height))
 
   def Collide(self,direction):
     pass
@@ -491,6 +492,10 @@ def controls():
 #The x and y for displacing screen and sprites
 display_scroll = [0,0]
 
+# A list for the player, may seem unnecessary as there is only one, but it allows
+# me to use pygames built in sprite group collision system
+player_group = pygame.sprite.Group()
+
 #Creating a list of walls
 wall_group = pygame.sprite.Group()
 
@@ -509,9 +514,6 @@ item_group = pygame.sprite.Group()
 # The list of all trees
 tree_group = pygame.sprite.Group()
 
-# A list for the player, may seem unnecessary as there is only one, but it allows
-# me to use pygames built in sprite group collision system
-player_group = pygame.sprite.Group()
 
 # random creation of enemies, just a placeholder for testing
 for i in range(5):
@@ -527,16 +529,16 @@ all_sprites_group.add(player)
 player_group.add(player)
 
 
-#making border walls for testing collisions
-mywall = Wall(-1500,1500,3000,700)
-mywall2 = Wall(-1500,-1500,3000,700)
-mywall3 = Wall(1500,-1500,700,3000)
-#mywall4 = Wall(-1500,1500,700,3000)
+#making border walls
+bottom_wall = Wall(-2000,1500,4700,700)
+top_wall = Wall(-1500,-1500,3500,700)
+right_wall = Wall(2000,-1500,700,3000)
+left_wall = Wall(-2000,-1500,700,3000)
 #all_sprites_group.add(mywall)
-wall_group.add(mywall)
-wall_group.add(mywall2)
-wall_group.add(mywall3)
-#wall_group.add(mywall4)
+wall_group.add(bottom_wall)
+wall_group.add(top_wall)
+wall_group.add(right_wall)
+wall_group.add(left_wall)
 
 
 
@@ -648,8 +650,9 @@ def gameLoop():
     # make an method that stops the enemy,player and the bullet upon collision
 
     # Updates all of the sprites on screen
-    all_sprites_group.update(display)
     wall_group.update(display)
+    all_sprites_group.update(display)
+
 
     # Tick the clock and update the display
     clock.tick(60)
