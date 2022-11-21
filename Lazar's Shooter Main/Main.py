@@ -54,8 +54,9 @@ health_load_img = pygame.image.load('Items/health.png').convert()
 health_img = pygame.transform.scale(health_load_img,(38,38))
 health_img.set_colorkey((BLACK))
 
-tree_load_img = pygame.image.load('Items/health.png').convert()
-tree_1 = pygame.transform.scale(tree_load_img,(38,38))
+tree_load_img = pygame.image.load('Objects/tree_1.png').convert()
+tree_1_img = pygame.transform.scale(tree_load_img,(128,128))
+tree_1_img.set_colorkey((BLACK))
 
 
 RedEnemy = [pygame.image.load('Enemies/RedAlien1.png'),pygame.image.load('Enemies/RedAlien2.png')]
@@ -356,7 +357,7 @@ class Tree(pygame.sprite.Sprite):
     self.rect.y = self.y - display_scroll[1]
 
     if self.type == 1:
-      display.blit(tree_1.img,(self.rect.x,self.rect.y))
+      display.blit(tree_1_img,(self.rect.x,self.rect.y))
 
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
@@ -530,7 +531,7 @@ for i in range(3):
   item_group.add(mypickup)
 
 for i in range(3):
-  mytree = Tree(random.randint(1,1000),random.randint(1,1000),32,1)
+  mytree = Tree(random.randint(1,1000),random.randint(1,1000),40,1)
   all_sprites_group.add(mytree)
   tree_group.add(mytree)
 
