@@ -547,8 +547,8 @@ for i in range(3):
   all_sprites_group.add(mypickup)
   item_group.add(mypickup)
 
-for i in range(3):
-  mytree = Tree(random.randint(1,1000),random.randint(1,1000),40,1)
+for i in range(30):
+  mytree = Tree(random.randint(-1000,1000),random.randint(-1000,1000),100,1)
   all_sprites_group.add(mytree)
   tree_group.add(mytree)
 
@@ -640,6 +640,9 @@ def gameLoop():
     for i in item_got_list:
       mypickup.use()
         
+    tree_hit_list = pygame.sprite.groupcollide(tree_group,bullet_group, False, True)
+    for bullet in tree_hit_list:
+      pass
 
     wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
     for sprite in wall_collisions:
