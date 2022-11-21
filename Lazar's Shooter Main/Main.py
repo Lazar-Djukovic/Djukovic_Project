@@ -496,6 +496,9 @@ bullet_group = pygame.sprite.Group()
 # The list of all items
 item_group = pygame.sprite.Group()
 
+# The list of all trees
+tree_group = pygame.sprite.Group()
+
 # A list for the player, may seem unnecessary as there is only one, but it allows
 # me to use pygames built in sprite group collision system
 player_group = pygame.sprite.Group()
@@ -526,6 +529,10 @@ for i in range(3):
   all_sprites_group.add(mypickup)
   item_group.add(mypickup)
 
+for i in range(3):
+  mytree = Tree(random.randint(1,1000),random.randint(1,1000),32,1)
+  all_sprites_group.add(mytree)
+  tree_group.add(mytree)
 
 #The main game loop
 def gameLoop():
