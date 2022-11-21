@@ -150,6 +150,9 @@ class Player(pygame.sprite.Sprite):
     #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y, self.width, self.height))
     self.moving = False
 
+    if self.health > 320:
+      self.health = 320
+
     self.handle_weapons(display)
     self.PlayerHealth(950,660,320,50,self.health)
 
@@ -237,6 +240,7 @@ class Item(pygame.sprite.Sprite):
 
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
+    
 
     if self.type == 'health':
       display.blit(health_img,(self.rect.x,self.rect.y))
@@ -517,18 +521,20 @@ for i in range(5):
 #next i
 
 
-#making temporary walls for testing collisions
-mywall = Wall(100,200,300,30)
+#Creating the instance of the player
+player = Player(640,360,64,64,320,'Rifle')
+all_sprites_group.add(player)
+player_group.add(player)
+
+
+#making border walls for testing collisions
+mywall = Wall(-1500,1500,3000,300)
 mywall2 = Wall(100,200,30,300)
 #all_sprites_group.add(mywall)
 wall_group.add(mywall)
 wall_group.add(mywall2)
 
 
-#Creating the instance of the player
-player = Player(640,360,64,64,320,'Rifle')
-all_sprites_group.add(player)
-player_group.add(player)
 
 for i in range(3):
   mypickup = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
