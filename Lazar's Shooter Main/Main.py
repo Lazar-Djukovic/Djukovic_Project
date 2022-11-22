@@ -68,6 +68,8 @@ RedEnemyHit = pygame.transform.scale(RedEnemyH,(75,75))
 
 background = (pygame.image.load('IntroBackground.png'))
 
+
+
 #The main player class
 class Player(pygame.sprite.Sprite):
   def __init__(self, x, y, width, height,health,weapon):
@@ -217,6 +219,8 @@ class Player(pygame.sprite.Sprite):
       return(self.rocks)
 
 
+
+
 #Players bullet Class
 class PlayerBullet(pygame.sprite.Sprite):
   def __init__(self, x, y, mouse_x, mouse_y,size):
@@ -249,6 +253,9 @@ class PlayerBullet(pygame.sprite.Sprite):
   def Collide(self,position):
     self.kill()
 
+
+
+
 class Item(pygame.sprite.Sprite):
   def __init__(self, x, y, size, type):
     super().__init__()
@@ -280,6 +287,8 @@ class Item(pygame.sprite.Sprite):
     if self.type == 'health':
       if player.health < 320:
         player.health += 50
+
+
 
 #The enemy sprite class
 class Enemy(pygame.sprite.Sprite):
@@ -356,6 +365,8 @@ class Enemy(pygame.sprite.Sprite):
         #super(BlueEnemy, self).__init__(self,x,y,width,height,health)
     
 
+
+
 #Class for making walls which players can't go trought, but some enemies may be able to
 class Wall(pygame.sprite.Sprite):
   def __init__(self,x,y,width,height):
@@ -375,6 +386,8 @@ class Wall(pygame.sprite.Sprite):
 
   def Collide(self,direction):
     pass
+
+
 
 class Tree(pygame.sprite.Sprite):
   def __init__(self, x, y, size, type):
