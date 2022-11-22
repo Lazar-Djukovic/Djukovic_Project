@@ -57,6 +57,10 @@ health_load_img = pygame.image.load('Items/health.png').convert()
 health_img = pygame.transform.scale(health_load_img,(38,38))
 health_img.set_colorkey((BLACK))
 
+ammo_load_img = pygame.image.load('Items/ammo.png').convert()
+ammo_img = pygame.transform.scale(ammo_load_img,(38,38))
+ammo_img.set_colorkey((BLACK))
+
 tree_load_img = pygame.image.load('Objects/tree_1.png').convert()
 tree_1_img = pygame.transform.scale(tree_load_img,(128,128))
 tree_1_img.set_colorkey((BLACK))
@@ -218,6 +222,8 @@ class Player(pygame.sprite.Sprite):
     if self.ammo_type == 3:
       return(self.rocks)
 
+  def Use(self):
+    pass
 
 
 
@@ -276,18 +282,20 @@ class Item(pygame.sprite.Sprite):
     
     if self.type == 'health':
       display.blit(health_img,(self.rect.x,self.rect.y))
+
     if self.type == 'ammo':
-      #display.blit(health_img,(self.rect.x,self.rect.y))
-      pass
+      display.blit(ammo_img,(self.rect.x,self.rect.y))
 
   def Shadow(self,x,y):
     pygame.draw.rect(display, GRAY, (x+12,y+18,19,19))
 
-  def use(self):
+  def Use(self):
     if self.type == 'health':
       if player.health < 320:
         player.health += 50
 
+    if self.type == 'ammo':
+      player.rifle_ammo += random.randint(5,15)
 
 
 #The enemy sprite class
@@ -585,15 +593,22 @@ wall_group.add(left_wall)
 
 
 
-for i in range(3):
-  mypickup = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
-  all_sprites_group.add(mypickup)
-  item_group.add(mypickup)
+for i in range(5):
+  myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
+  all_sprites_group.add(myhealth)
+  item_group.add(myhealth)
+
+for i in range(5):
+  myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
+  all_sprites_group.add(myammo)
+  item_group.add(myammo)
+
 
 for i in range(30):
   mytree = Tree(random.randint(-1000,1000),random.randint(-1000,1000),100,1)
   all_sprites_group.add(mytree)
   tree_group.add(mytree)
+
 
 #Creating the instance of the player
 player = Player(640,360,64,64,320,'Rifle')
@@ -620,6 +635,7 @@ def gameLoop():
           bullet = (PlayerBullet(player.rect.x+35, player.rect.y+30, mouse_x, mouse_y,5))
           bullet_group.add(bullet)
           all_sprites_group.add(bullet)
+          player.rifle_ammo -= 1
         #endif
       #endif
 
@@ -685,9 +701,11 @@ def gameLoop():
       #enemy.damage attribute instead of this 30
 
     item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, player.health_needed)
-    for i in item_got_list:
-      mypickup.use()
-        
+    for item in item_got_list:
+      myammo.Use()
+      myhealth.Use()
+         #MAKE THIS TWO DIFFERENT LISTS BECAUSE HEALTH PICKUPS GIVE INFINITE AMMO
+
     tree_hit_list = pygame.sprite.groupcollide(tree_group,bullet_group, False, True)
     for bullet in tree_hit_list:
       pass
