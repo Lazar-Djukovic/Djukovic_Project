@@ -269,7 +269,9 @@ class Item(pygame.sprite.Sprite):
     
     if self.type == 'health':
       display.blit(health_img,(self.rect.x,self.rect.y))
-
+    if self.type == 'ammo':
+      #display.blit(health_img,(self.rect.x,self.rect.y))
+      pass
     
   def Shadow(self,x,y):
     pygame.draw.rect(display, GRAY, (x+12,y+18,19,19))
