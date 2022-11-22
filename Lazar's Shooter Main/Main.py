@@ -504,14 +504,14 @@ def controls():
         quit()
   
     display.blit(background,(0,0))
-    message_to_screen('Your objective is to collect as many points as possible by destroying enemies      ', BLACK, -75)
-    message_to_screen('Aim using the mouse to point your weapon and shoot with left click                    ', BLACK, -50)
-    message_to_screen('Collect health packs in order to heal and ammo boxes to get more bullets            ', BLACK, -25)
+    message_to_screen('Your objective is to collect as many points as possible by destroying enemies      ', BLACK, -90)
+    message_to_screen('Aim using the mouse to point your weapon and shoot with left click                    ', BLACK, -55)
+    message_to_screen('Collect health packs in order to heal and ammo boxes to get more bullets            ', BLACK, -20)
 
-    message_to_screen('>Movement - W,A,S,D                                                                                       ', BLACK, 25)
-    message_to_screen('>Shooting - Mouse 1 (Left click)                                                                         ', BLACK, 50)
-    message_to_screen('>Aiming - Mouse Pointer                                                                                    ', BLACK, 75)
-    message_to_screen('>Aiming - Mouse Pointer                                                                                    ', BLACK, 75)
+    message_to_screen('>Movement - W,A,S,D                                                                                       ', BLACK, 55)
+    message_to_screen('>Shooting - Mouse 1 (Left click)                                                                         ', BLACK, 90)
+    message_to_screen('>Aiming - Mouse Pointer                                                                                    ', BLACK, 125)
+    message_to_screen('>Switching weapons - 1,2,3                                                                               ', BLACK, 160)
  
     pygame.draw.rect(display, BLACK, (558,383,180,70))
     pygame.draw.rect(display, BLACK, (558,473,180,70))
@@ -559,12 +559,6 @@ for i in range(5):
 #next i
 
 
-#Creating the instance of the player
-player = Player(640,360,64,64,320,'Rifle')
-all_sprites_group.add(player)
-player_group.add(player)
-
-
 #making border walls
 bottom_wall = Wall(-2000,1500,4700,700)
 top_wall = Wall(-1500,-1500,3500,700)
@@ -587,6 +581,11 @@ for i in range(30):
   mytree = Tree(random.randint(-1000,1000),random.randint(-1000,1000),100,1)
   all_sprites_group.add(mytree)
   tree_group.add(mytree)
+
+#Creating the instance of the player
+player = Player(640,360,64,64,320,'Rifle')
+all_sprites_group.add(player)
+player_group.add(player)
 
 #The main game loop
 def gameLoop():
