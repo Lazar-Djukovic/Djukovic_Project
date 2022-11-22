@@ -272,7 +272,7 @@ class Item(pygame.sprite.Sprite):
     if self.type == 'ammo':
       #display.blit(health_img,(self.rect.x,self.rect.y))
       pass
-    
+
   def Shadow(self,x,y):
     pygame.draw.rect(display, GRAY, (x+12,y+18,19,19))
 
@@ -504,10 +504,15 @@ def controls():
         quit()
   
     display.blit(background,(0,0))
-    message_to_screen('Your objective is to collect as many points as possible by destroying enemies', BLACK, -70)
-    message_to_screen('Aim using the mouse to point your weapon and shoot with left click', BLACK, -50)
-    message_to_screen('Collect health packs in order to heal and swap weapons using 1,2,3', BLACK, -30)
+    message_to_screen('Your objective is to collect as many points as possible by destroying enemies      ', BLACK, -75)
+    message_to_screen('Aim using the mouse to point your weapon and shoot with left click                    ', BLACK, -50)
+    message_to_screen('Collect health packs in order to heal and ammo boxes to get more bullets            ', BLACK, -25)
 
+    message_to_screen('>Movement - W,A,S,D                                                                                       ', BLACK, 25)
+    message_to_screen('>Shooting - Mouse 1 (Left click)                                                                         ', BLACK, 50)
+    message_to_screen('>Aiming - Mouse Pointer                                                                                    ', BLACK, 75)
+    message_to_screen('>Aiming - Mouse Pointer                                                                                    ', BLACK, 75)
+ 
     pygame.draw.rect(display, BLACK, (558,383,180,70))
     pygame.draw.rect(display, BLACK, (558,473,180,70))
     pygame.draw.rect(display, BLACK, (558,563,180,70))
