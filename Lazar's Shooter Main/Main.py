@@ -147,6 +147,7 @@ class Player(pygame.sprite.Sprite):
 
     self.Shadow(self.rect.x,self.rect.y)
 
+    #timer to switch between frames
     if self.counter + 1 >= 24:
       self.counter = 0
     #endif
