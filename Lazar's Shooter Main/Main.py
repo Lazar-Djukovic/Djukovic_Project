@@ -598,7 +598,7 @@ for i in range(5):
   all_sprites_group.add(myhealth)
   item_group.add(myhealth)
 
-for i in range(5):
+for i in range(6):
   myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
   all_sprites_group.add(myammo)
   item_group.add(myammo)
