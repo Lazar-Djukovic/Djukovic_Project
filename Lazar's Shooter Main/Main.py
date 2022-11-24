@@ -227,7 +227,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-#Players bullet Class
+#Class definition of players bullet
 class PlayerBullet(pygame.sprite.Sprite):
   def __init__(self, x, y, mouse_x, mouse_y,size):
     super().__init__()
@@ -261,7 +261,7 @@ class PlayerBullet(pygame.sprite.Sprite):
 
 
 
-
+#Class definition of the items
 class Item(pygame.sprite.Sprite):
   def __init__(self, x, y, size, type):
     super().__init__()
@@ -396,7 +396,7 @@ class Wall(pygame.sprite.Sprite):
     pass
 
 
-
+#Class definition of the tree object
 class Tree(pygame.sprite.Sprite):
   def __init__(self, x, y, size, type):
     super().__init__()
@@ -598,7 +598,7 @@ for i in range(5):
   all_sprites_group.add(myhealth)
   item_group.add(myhealth)
 
-for i in range(6):
+for i in range(5):
   myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
   all_sprites_group.add(myammo)
   item_group.add(myammo)
