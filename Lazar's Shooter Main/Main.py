@@ -550,18 +550,8 @@ def controls():
     pygame.display.update()
     clock.tick(15)
 
-
 def SpawnItems():
-
-  for i in range(5):
-    myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
-    all_sprites_group.add(myhealth)
-    health_group.add(myhealth)
-
-  for i in range(5):
-    myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
-    all_sprites_group.add(myammo)
-    ammo_group.add(myammo)
+  pass
 
 
 #The x and y for displacing screen and sprites
@@ -611,10 +601,17 @@ wall_group.add(top_wall)
 wall_group.add(right_wall)
 wall_group.add(left_wall)
 
-refresh += 1
-if refresh > 500:
-  SpawnItems
 
+
+for i in range(5):
+  myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
+  all_sprites_group.add(myhealth)
+  health_group.add(myhealth)
+
+for i in range(5):
+  myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
+  all_sprites_group.add(myammo)
+  ammo_group.add(myammo)
 
 
 for i in range(30):
