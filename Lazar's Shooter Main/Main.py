@@ -568,8 +568,10 @@ all_sprites_group = pygame.sprite.Group()
 # The list of bullets
 bullet_group = pygame.sprite.Group()
 
-# The list of all items
-item_group = pygame.sprite.Group()
+# The health item group
+health_group = pygame.sprite.Group()
+# The ammo item group
+ammo_group = pygame.sprite.Group()
 
 # The list of all trees
 tree_group = pygame.sprite.Group()
@@ -599,12 +601,12 @@ wall_group.add(left_wall)
 for i in range(5):
   myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
   all_sprites_group.add(myhealth)
-  item_group.add(myhealth)
+  health_group.add(myhealth)
 
 for i in range(5):
   myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
   all_sprites_group.add(myammo)
-  item_group.add(myammo)
+  ammo_group.add(myammo)
 
 
 for i in range(30):
@@ -703,11 +705,13 @@ def gameLoop():
       player.Hit(30)
       #enemy.damage attribute instead of this 30
 
-    item_got_list = pygame.sprite.groupcollide(player_group , item_group, False, player.health_needed)
-    for item in item_got_list:
-      myammo.Use()
+    health_got_list = pygame.sprite.groupcollide(player_group , health_group, False, player.health_needed)
+    for item in health_got_list:
       myhealth.Use()
-         #MAKE THIS TWO DIFFERENT LISTS BECAUSE HEALTH PICKUPS GIVE INFINITE AMMO
+
+    ammo_got_list = pygame.sprite.groupcollide(player_group , ammo_group, False, True)
+    for item in ammo_got_list:
+      myammo.Use()
 
     tree_hit_list = pygame.sprite.groupcollide(tree_group,bullet_group, False, True)
     for bullet in tree_hit_list:
