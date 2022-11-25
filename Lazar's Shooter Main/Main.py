@@ -161,7 +161,8 @@ class Player(pygame.sprite.Sprite):
       display.blit(pygame.transform.scale(player_idle_img, (self.width,self.height)), (self.rect.x,self.rect.y))
 
     if self.invincible == True:
-      display.blit(pygame.transform.scale(player_hurt_img, (self.width,self.height)), (self.rect.x,self.rect.y))
+      if self.counter < 6:
+        display.blit(pygame.transform.scale(player_hurt_img, (self.width,self.height)), (self.rect.x,self.rect.y))
     #endif
 
     #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y, self.width, self.height))
