@@ -40,6 +40,7 @@ Ground_img = pygame.image.load('Ground.png')
 
 player_walk_img = [pygame.image.load('PlayerSprites/Player1.png'),pygame.image.load('PlayerSprites/Player2.png')]
 player_idle_img = pygame.image.load('PlayerSprites/PlayerIdle.png')
+player_hurt_img = pygame.image.load('PlayerSprites/PlayerHurt.png')
 
 rifle_img = pygame.image.load('Weapons/Rifle.png').convert()
 player_rifle_img = pygame.transform.scale(rifle_img,(64,64))
@@ -155,12 +156,12 @@ class Player(pygame.sprite.Sprite):
     
     #Animating the player by altering between images while he is moving
     if self.moving == True:
-      if self.invincible == True:
-        display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
-      else:
         display.blit(pygame.transform.scale(player_walk_img[self.counter//12], (self.width,self.height)), (self.rect.x,self.rect.y))
     else:
       display.blit(pygame.transform.scale(player_idle_img, (self.width,self.height)), (self.rect.x,self.rect.y))
+
+    if self.invincible == True:
+      display.blit(pygame.transform.scale(player_hurt_img, (self.width,self.height)), (self.rect.x,self.rect.y))
     #endif
 
     #pygame.draw.rect(display, RED, (self.rect.x, self.rect.y, self.width, self.height))
