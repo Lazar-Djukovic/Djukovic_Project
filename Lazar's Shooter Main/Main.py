@@ -33,6 +33,8 @@ largefont = pygame.font.SysFont("Verdana",65)
 pygame.display.set_caption('<Shooter/>')
 clock = pygame.time.Clock()
 
+refresh = 0
+
 offset_speed = 4
 
 #Loading and transforming all images, as well as setting colorkeys
@@ -549,6 +551,19 @@ def controls():
     clock.tick(15)
 
 
+def SpawnItems():
+
+  for i in range(5):
+    myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
+    all_sprites_group.add(myhealth)
+    health_group.add(myhealth)
+
+  for i in range(5):
+    myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
+    all_sprites_group.add(myammo)
+    ammo_group.add(myammo)
+
+
 #The x and y for displacing screen and sprites
 display_scroll = [0,0]
 
@@ -596,17 +611,10 @@ wall_group.add(top_wall)
 wall_group.add(right_wall)
 wall_group.add(left_wall)
 
+refresh += 1
+if refresh > 500:
+  SpawnItems
 
-
-for i in range(5):
-  myhealth = Item(random.randint(1,1000),random.randint(1,1000),32,'health')
-  all_sprites_group.add(myhealth)
-  health_group.add(myhealth)
-
-for i in range(5):
-  myammo = Item(random.randint(1,1000),random.randint(1,1000),32,'ammo')
-  all_sprites_group.add(myammo)
-  ammo_group.add(myammo)
 
 
 for i in range(30):
