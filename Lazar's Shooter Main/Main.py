@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
 
     self.rect = self.image.get_rect()
     self.rect.x = x
-    self.rect.y =y
+    self.rect.y = y
 
     #reload counter needed!
 
@@ -189,11 +189,11 @@ class Player(pygame.sprite.Sprite):
 
     #scrolling trough the weapons for the player
     if keys[pygame.K_1]:
-      player.weapon = player.weapon_list[0]
+      self.weapon = player.weapon_list[0]
     if keys[pygame.K_2]:
-      player.weapon = player.weapon_list[1]
+      self.weapon = player.weapon_list[1]
     if keys[pygame.K_3]:
-      player.weapon = player.weapon_list[2]
+      self.weapon = player.weapon_list[2]
 
 
     wall_collision = pygame.sprite.spritecollide(self, walls, False)
