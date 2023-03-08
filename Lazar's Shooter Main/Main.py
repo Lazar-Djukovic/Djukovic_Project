@@ -115,6 +115,7 @@ class Player(pygame.sprite.Sprite):
     self.rifle_ammo = 50
     self.pistol_ammo = 49
     self.rocks = 48   #for a slingshot
+    self.stop = False
     
 
   #Function for handling, rotating and possibly switching weapons
@@ -146,7 +147,62 @@ class Player(pygame.sprite.Sprite):
 
 
 #function that updates the player object every frame
-  def update(self,display):
+  def update(self,display,walls):
+
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_a]:
+      display_scroll[0] -= offset_speed
+      for bullet in bullet_group:
+        bullet.rect.x += offset_speed
+      for enemy in enemy_group:
+        enemy.rect.x += offset_speed
+      self.moving = True
+    #endif
+
+    if keys[pygame.K_d]:
+      display_scroll[0] += offset_speed
+      for bullet in bullet_group:
+        bullet.rect.x -= offset_speed
+      for enemy in enemy_group:
+        enemy.rect.x -= offset_speed
+      self.moving = True
+    #endif
+
+    if keys[pygame.K_w]:
+      display_scroll[1] -= offset_speed
+      for bullet in bullet_group:
+        bullet.rect.y += offset_speed
+      for enemy in enemy_group:
+        enemy.rect.y += offset_speed
+      self.moving = True
+    #endif
+
+    if keys[pygame.K_s]:
+      display_scroll[1] += offset_speed
+      for bullet in bullet_group:
+        bullet.rect.y -= offset_speed
+      for enemy in enemy_group:
+        enemy.rect.y -= offset_speed
+      self.moving = True
+    #endif
+
+    #scrolling trough the weapons for the player
+    if keys[pygame.K_1]:
+      player.weapon = player.weapon_list[0]
+    if keys[pygame.K_2]:
+      player.weapon = player.weapon_list[1]
+    if keys[pygame.K_3]:
+      player.weapon = player.weapon_list[2]
+
+
+    wall_collision = pygame.sprite.spritecollide(self, walls, False)
+    if wall_collision:
+      # Move the player back to their previous position
+      display_scroll[0],display_scroll[1] = self.old_position
+
+    # Save the player's old position for collision detection
+    self.old_position = display_scroll[0],display_scroll[1]
 
     self.Shadow(self.rect.x,self.rect.y)
 
@@ -252,7 +308,7 @@ class PlayerBullet(pygame.sprite.Sprite):
     self.x_velocity = math.cos(self.angle) * self.speed
     self.y_velocity = math.sin(self.angle) * self.speed
 
-  def update(self,display):
+  def update(self,display,walls):
     self.rect.x -= int(self.x_velocity)
     self.rect.y -= int(self.y_velocity)
 
@@ -278,7 +334,7 @@ class Item(pygame.sprite.Sprite):
 
     self.type = type
 
-  def update(self,display):
+  def update(self,display,walls):
 
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
@@ -324,7 +380,7 @@ class Enemy(pygame.sprite.Sprite):
     self.health = health
     self.damage = damage
   
-  def update(self,display):
+  def update(self,display,walls):
 
     self.Shadow(self.rect.x,self.rect.y)
 
@@ -390,15 +446,14 @@ class Wall(pygame.sprite.Sprite):
     self.rect = self.image.get_rect()
     self.x = x
     self.y = y
+    self.image.fill(RED)
 
-  def update(self,display):
+  def update(self,display,walls):
     self.rect.x = self.x - display_scroll[0]
     self.rect.y = self.y - display_scroll[1]
 
     pygame.draw.rect(display, WALL_GRAY, (self.rect.x, self.rect.y,self.width,self.height))
 
-  def Collide(self,direction):
-    pass
 
 
 #Class definition of the tree object
@@ -413,7 +468,7 @@ class Tree(pygame.sprite.Sprite):
 
     self.type = type
 
-  def update(self,display):
+  def update(self,display,walls):
 
     self.rect.x = self.x - display_scroll[0] 
     self.rect.y = self.y - display_scroll[1]
@@ -652,52 +707,6 @@ def gameLoop():
     #the center of the map
     pygame.draw.rect(display, WHITE, (100-display_scroll[0],100-display_scroll[1],16,16))
 
-    keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_a]:
-      display_scroll[0] -= offset_speed
-      for bullet in bullet_group:
-        bullet.rect.x += offset_speed
-      for enemy in enemy_group:
-        enemy.rect.x += offset_speed
-      player.moving = True
-    #endif
-
-    if keys[pygame.K_d]:
-      display_scroll[0] += offset_speed
-      for bullet in bullet_group:
-        bullet.rect.x -= offset_speed
-      for enemy in enemy_group:
-        enemy.rect.x -= offset_speed
-      player.moving = True
-    #endif
-
-    if keys[pygame.K_w]:
-      display_scroll[1] -= offset_speed
-      for bullet in bullet_group:
-        bullet.rect.y += offset_speed
-      for enemy in enemy_group:
-        enemy.rect.y += offset_speed
-      player.moving = True
-    #endif
-
-    if keys[pygame.K_s]:
-      display_scroll[1] += offset_speed
-      for bullet in bullet_group:
-        bullet.rect.y -= offset_speed
-      for enemy in enemy_group:
-        enemy.rect.y -= offset_speed
-      player.moving = True
-    #endif
-
-    #scrolling trough the weapons for the player
-    if keys[pygame.K_1]:
-      player.weapon = player.weapon_list[0]
-    if keys[pygame.K_2]:
-      player.weapon = player.weapon_list[1]
-    if keys[pygame.K_3]:
-      player.weapon = player.weapon_list[2]
- 
 
     #collision detection for enemies and player bulletsss
     enemy_hit_list = pygame.sprite.groupcollide(enemy_group, bullet_group, False, True)
@@ -722,17 +731,9 @@ def gameLoop():
     for bullet in tree_hit_list:
       pass
 
-    wall_collisions = pygame.sprite.groupcollide(all_sprites_group, wall_group, False, False)
-    for sprite in wall_collisions:
-      #sprite.Collide('under')
-      #sprite.collision = True
-      pass
-      
-    # make an method that stops the enemy,player and the bullet upon collision
-
     # Updates all of the sprites on screen
-    wall_group.update(display)
-    all_sprites_group.update(display)
+    wall_group.update(display,wall_group)
+    all_sprites_group.update(display,wall_group)
 
 
     # Tick the clock and update the display
