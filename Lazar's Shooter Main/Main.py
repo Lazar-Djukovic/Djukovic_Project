@@ -154,7 +154,7 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_a]:
       display_scroll[0] -= offset_speed
       for bullet in bullet_group:
-        bullet.rect.x += offset_speed
+        bullet.offset('x','pos')
       for enemy in enemy_group:
         enemy.rect.x += offset_speed
       self.moving = True
@@ -163,7 +163,7 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_d]:
       display_scroll[0] += offset_speed
       for bullet in bullet_group:
-        bullet.rect.x -= offset_speed
+        bullet.offset('x','neg')
       for enemy in enemy_group:
         enemy.rect.x -= offset_speed
       self.moving = True
@@ -172,7 +172,7 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_w]:
       display_scroll[1] -= offset_speed
       for bullet in bullet_group:
-        bullet.rect.y += offset_speed
+        bullet.offset('y','pos')
       for enemy in enemy_group:
         enemy.rect.y += offset_speed
       self.moving = True
@@ -181,7 +181,7 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_s]:
       display_scroll[1] += offset_speed
       for bullet in bullet_group:
-        bullet.rect.y -= offset_speed
+        bullet.offset('y','neg')
       for enemy in enemy_group:
         enemy.rect.y -= offset_speed
       self.moving = True
@@ -195,13 +195,12 @@ class Player(pygame.sprite.Sprite):
     if keys[pygame.K_3]:
       self.weapon = player.weapon_list[2]
 
-
+      
     wall_collision = pygame.sprite.spritecollide(self, walls, False)
     if wall_collision:
       # Move the player back to their previous position
       display_scroll[0],display_scroll[1] = self.old_position
 
-    # Save the player's old position for collision detection
     self.old_position = display_scroll[0],display_scroll[1]
 
     self.Shadow(self.rect.x,self.rect.y)
@@ -263,17 +262,6 @@ class Player(pygame.sprite.Sprite):
     if self.health < 0:
       pygame.quit()
 
-  def Collide(self,position):
-
-    if self.collision == True:
-      if position == 'under':
-        self.rect.x += offset_speed
-      if position == 'above':
-        self.rect.x -= offset_speed
-      if position == 'left':
-        self.rect.y += offset_speed
-      if position == 'right':
-        self.rect.y += offset_speed
 
   def AmmoType(self):
     if self.ammo_type == 1:
@@ -320,6 +308,21 @@ class PlayerBullet(pygame.sprite.Sprite):
   def Collide(self,position):
     self.kill()
 
+  def offset(self,axis,direction):
+      self.axis = axis
+      self.direction = direction
+
+      if self.axis == 'y':
+        if self.direction == 'neg':
+          self.rect.y -= offset_speed
+        elif self.direction == 'pos':
+          self.rect.y += offset_speed
+      elif self.axis =='x':
+        if self.direction == 'neg':
+          self.rect.x -= offset_speed
+        elif self.direction == 'pos':
+          self.rect.x += offset_speed
+          
 
 
 #Class definition of the items
@@ -635,6 +638,8 @@ ammo_group = pygame.sprite.Group()
 
 # The list of all trees
 tree_group = pygame.sprite.Group()
+
+wall_collide_group = pygame.sprite.Group()
 
 
 # random creation of enemies, just a placeholder for testing
