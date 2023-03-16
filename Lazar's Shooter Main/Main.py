@@ -199,7 +199,7 @@ class Player(pygame.sprite.Sprite):
     wall_collision = pygame.sprite.spritecollide(self, walls, False)
     if wall_collision:
       # Move the player back to their previous position
-      display_scroll[0],display_scroll[1] = self.old_position
+      display_scroll[0],display_scroll[1] = self.old_position[0],self.old_position[1]
 
     self.old_position = display_scroll[0],display_scroll[1]
 
