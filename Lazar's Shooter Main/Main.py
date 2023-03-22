@@ -52,10 +52,6 @@ revolver_img = pygame.image.load('Weapons/Revolver.png').convert()
 player_revolver_img = pygame.transform.scale(revolver_img,(64,32))
 player_revolver_img.set_colorkey((BLACK))
 
-bow_img = pygame.image.load('Weapons/bow.png').convert()
-player_bow_img = pygame.transform.scale(bow_img,(64,64))
-player_bow_img.set_colorkey((BLACK))
-
 health_load_img = pygame.image.load('Items/health.png').convert()
 health_img = pygame.transform.scale(health_load_img,(38,38))
 health_img.set_colorkey((BLACK))
@@ -108,13 +104,12 @@ class Player(pygame.sprite.Sprite):
     self.weapon = weapon
     self.damage = 0
     self.weaponimg = player_rifle_img
-    self.weapon_list = ['Rifle','Revolver','bow']
+    self.weapon_list = ['Rifle','Revolver']
 
     #ammunition for all of the weapons
     self.ammo_type = 1
     self.rifle_ammo = 50
     self.pistol_ammo = 49
-    self.rocks = 48   #for a slingshot
     self.stop = False
     
 
@@ -131,9 +126,6 @@ class Player(pygame.sprite.Sprite):
     elif self.weapon == 'Revolver':
       self.weaponimg = player_revolver_img
       self.ammo_type = 2
-    elif self.weapon == 'bow':
-      self.weaponimg = player_bow_img
-      self.ammo_type = 3
 
     #Checking if the weapon is on the left or right side of the player and rotating accordingly
     if angle < 90 and angle > -90:
@@ -192,8 +184,6 @@ class Player(pygame.sprite.Sprite):
       self.weapon = player.weapon_list[0]
     if keys[pygame.K_2]:
       self.weapon = player.weapon_list[1]
-    if keys[pygame.K_3]:
-      self.weapon = player.weapon_list[2]
 
       
     wall_collision = pygame.sprite.spritecollide(self, walls, False)
@@ -249,7 +239,7 @@ class Player(pygame.sprite.Sprite):
       self.health_needed = False
 
   def PlayerHealth(self,x,y,w,h,health):
-    pygame.draw.rect(display, BLACK, (x,y,w,h))
+    pygame.draw.rect(display, BLACK, (x-5,y-5,w+10,h+10))
     pygame.draw.rect(display, RED, (x,y,health,h))
 
   def Shadow(self,x,y):
