@@ -19,15 +19,15 @@ BROWN = (210,105,30)
 WALL_GRAY = (47,69,83)
 GRAY = (80,80,80)
 
-#Screen resolution
+#Screen resolution variables
 display_width = 1280
 display_height = 720
 display = pygame.display.set_mode((display_width,display_height))
 
-#Text fonts
-smallfont = pygame.font.SysFont("Verdana",25)
-medfont = pygame.font.SysFont("Verdana",40)
-largefont = pygame.font.SysFont("Verdana",65)
+#Text fonts 
+smallfont = pygame.font.Font("Fonts\RetroFont.ttf",30)
+medfont = pygame.font.Font("Fonts\RetroFont.ttf",45)
+largefont = pygame.font.Font("Fonts\RetroFont.ttf",70)
 
 #Window caption and clock
 pygame.display.set_caption('<Shooter/>')
@@ -436,7 +436,6 @@ class Enemy(pygame.sprite.Sprite):
     #def __init__(self,x,y,width,height,health):
         #super(BlueEnemy, self).__init__(self,x,y,width,height,health)
     
-
 
 
 #Class for making walls which players can't go trought, but some enemies may be able to
