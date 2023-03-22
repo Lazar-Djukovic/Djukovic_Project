@@ -546,8 +546,8 @@ def game_intro():
 
     display.blit(background,(0,0))
 
-    message_to_screen("Lazar's Shooter!", BLACK, -146, 'large')
-    message_to_screen("Lazar's Shooter!", RED, -150, 'large')
+    message_to_screen("Lazar's Shooting Game!", BLACK, -146, 'large')
+    message_to_screen("Lazar's Shooting Game!", RED, -150, 'large')
     message_to_screen('Description', BLACK, -70)
     message_to_screen('---', BLACK, -40)
     #message_to_screen('Press C to play, P to pause or Q to quit', black, 100)
@@ -631,6 +631,11 @@ tree_group = pygame.sprite.Group()
 wall_collide_group = pygame.sprite.Group()
 
 
+#Creating the instance of the player
+player = Player(640,360,64,64,320,'Rifle')
+all_sprites_group.add(player)
+player_group.add(player)
+
 # random creation of enemies, just a placeholder for testing
 for i in range(5):
   enemy = [Enemy(random.randint(1,1000),random.randint(1,1000),64,64,50,30)]
@@ -668,11 +673,6 @@ for i in range(30):
   all_sprites_group.add(mytree)
   tree_group.add(mytree)
 
-
-#Creating the instance of the player
-player = Player(640,360,64,64,320,'Rifle')
-all_sprites_group.add(player)
-player_group.add(player)
 
 #The main game loop
 def gameLoop():
