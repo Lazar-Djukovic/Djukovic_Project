@@ -105,6 +105,7 @@ class Player(pygame.sprite.Sprite):
     self.damage = 0
     self.weaponimg = player_rifle_img
     self.weapon_list = ['Rifle','Revolver']
+    self.new_position = 0,0
 
     #ammunition for all of the weapons
     self.ammo_type = 1
@@ -142,6 +143,8 @@ class Player(pygame.sprite.Sprite):
   def update(self,display,walls):
 
     keys = pygame.key.get_pressed()
+
+    displayUpdate('n')
 
     if keys[pygame.K_a]:
       display_scroll[0] -= offset_speed
@@ -189,9 +192,9 @@ class Player(pygame.sprite.Sprite):
     wall_collision = pygame.sprite.spritecollide(self, walls, False)
     if wall_collision:
       # Move the player back to their previous position
-      display_scroll[0],display_scroll[1] = self.old_position[0],self.old_position[1]
+      displayUpdate('o')
+      return
 
-    self.old_position = display_scroll[0],display_scroll[1]
 
     self.Shadow(self.rect.x,self.rect.y)
 
@@ -473,6 +476,13 @@ class Tree(pygame.sprite.Sprite):
   def Shadow(self,x,y):
     pygame.draw.ellipse(display, GRAY, [x+22,y+105,60,18])
 
+def displayUpdate(a):
+  temp = 0,0
+  if a == 'o':
+    temp = display_scroll
+  else:
+    display_scroll = temp
+
 #Four functions for easiliy writing any message and button on screen
 def text_to_button(msg, color, buttonx,buttony,buttonw,buttonh, size ="small"):
   textSurf, textRect = text_objects(msg,color,size)
@@ -598,6 +608,9 @@ def controls():
     clock.tick(15)
 
 def SpawnItems():
+  pass
+
+def SpawnEnemies():
   pass
 
 
